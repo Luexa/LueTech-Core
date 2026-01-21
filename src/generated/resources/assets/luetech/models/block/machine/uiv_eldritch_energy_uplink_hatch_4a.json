@@ -1,0 +1,22 @@
+{
+    "parent": "minecraft:block/block",
+    "loader": "gtceu:machine",
+    "machine": "luetech:uiv_eldritch_energy_uplink_hatch_4a",
+    "replaceable_textures": [
+        "bottom",
+        "top",
+        "side"
+    ],
+    "variants": {
+        "": {
+            "model": {
+                "parent": "luetech:block/machine/part/eldritch_input_4a",
+                "textures": {
+                    "bottom": "gtceu:block/casings/voltage/uiv/bottom",
+                    "side": "gtceu:block/casings/voltage/uiv/side",
+                    "top": "gtceu:block/casings/voltage/uiv/top"
+                }
+            }
+        }
+    }
+}

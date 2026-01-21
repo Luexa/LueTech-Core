@@ -47,10 +47,14 @@ public class LueTechCommand {
                                 .requires(src -> src.hasPermission(2))
                                 .then(Commands.literal("list")
                                         .executes(LueTechCommand::listBeaconNetworks))
-                                .then(setSubcommand())));
+                                .then(beaconSetSubcommand()))
+                        .then(Commands.literal("unique_machine")
+                                .requires(src -> src.hasPermission(2))
+                                .then(Commands.literal("dump")
+                                        .executes(LueTechCommand::dumpUniqueMachines))));
     }
 
-    private static ArgumentBuilder<CommandSourceStack, ?> setSubcommand() {
+    private static ArgumentBuilder<CommandSourceStack, ?> beaconSetSubcommand() {
         return Commands.literal("set")
                 .then(Commands.argument("network", UuidArgument.uuid())
                         .suggests(LueTechCommand::suggestNetworks)
@@ -162,6 +166,59 @@ public class LueTechCommand {
 
         network.setStoredPower(newValue);
         source.sendSuccess(() -> Component.literal("Network stored power successfully updated"), true);
+        return 1;
+    }
+
+    private static int dumpUniqueMachines(CommandContext<CommandSourceStack> ctx) {
+        var source = ctx.getSource();
+        MutableComponent dump = Component.literal("").withStyle(ChatFormatting.AQUA);
+        boolean firstPlayerEntry = true;
+        for (var playerEntry : LueTech.savedData.getPlayerActivatedMachines().entrySet()) {
+            var playerUUID = playerEntry.getKey();
+            var ownedMachines = playerEntry.getValue();
+            if (ownedMachines.isEmpty()) continue;
+            if (!firstPlayerEntry) {
+                dump.append(DOUBLE_NEWLINE);
+            }
+            firstPlayerEntry = false;
+            dump.append(Component.literal("[Player "));
+            dump.append(Component.literal(playerUUID.toString()).withStyle(ChatFormatting.GOLD));
+            dump.append("]");
+            for (var machineEntry : ownedMachines.entrySet()) {
+                var multiblockType = machineEntry.getKey();
+                var machineUUID = machineEntry.getValue();
+                dump.append("\n  ");
+                dump.append(Component.literal(multiblockType.toString()).withStyle(ChatFormatting.RED));
+                dump.append(" ");
+                dump.append(Component.literal(machineUUID.toString()).withStyle(ChatFormatting.YELLOW));
+            }
+        }
+        for (var teamEntry : LueTech.savedData.getTeamPlayerDelegates().entrySet()) {
+            var teamUUID = teamEntry.getKey();
+            var teamDelegates = teamEntry.getValue();
+            if (teamDelegates.isEmpty()) continue;
+            if (!firstPlayerEntry) {
+                dump.append(DOUBLE_NEWLINE);
+            }
+            firstPlayerEntry = false;
+            dump.append(Component.literal("[Team "));
+            dump.append(Component.literal(teamUUID.toString()).withStyle(ChatFormatting.GOLD));
+            dump.append("]");
+            for (var delegateEntry : teamDelegates.entrySet()) {
+                var multiblockType = delegateEntry.getKey();
+                var playerUUID = delegateEntry.getValue();
+                dump.append("\n  ");
+                dump.append(Component.literal(multiblockType.toString()).withStyle(ChatFormatting.RED));
+                dump.append(" ");
+                dump.append(Component.literal(playerUUID.toString()).withStyle(ChatFormatting.YELLOW));
+            }
+        }
+        if (firstPlayerEntry) {
+            source.sendSuccess(() -> Component.literal("No unique machines in Saved Data")
+                    .withStyle(ChatFormatting.AQUA), false);
+        } else {
+            source.sendSuccess(() -> dump, true);
+        }
         return 1;
     }
 }

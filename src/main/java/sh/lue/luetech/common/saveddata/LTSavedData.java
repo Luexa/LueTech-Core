@@ -17,10 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LueTech;
 import sh.lue.luetech.common.saveddata.beacon.BeaconSavedData;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
 
 public final class LTSavedData extends SavedData {
@@ -35,6 +32,14 @@ public final class LTSavedData extends SavedData {
     public static LTSavedData getInstance(@NotNull ServerLevel serverLevel) {
         return serverLevel.getServer().overworld().getDataStorage()
                 .computeIfAbsent(new Factory<>(LTSavedData::new, LTSavedData::load), "luetech");
+    }
+
+    public Map<UUID, Map<ResourceLocation, UUID>> getPlayerActivatedMachines() {
+        return uniqueMachineRegistrations.playerActivatedMachines;
+    }
+
+    public Map<UUID, Map<ResourceLocation, UUID>> getTeamPlayerDelegates() {
+        return uniqueMachineRegistrations.teamPlayerDelegates;
     }
 
     public boolean attemptUniqueActivation(@NotNull ResourceLocation multiblockType, @Nullable UUID machineUUID,
@@ -53,7 +58,7 @@ public final class LTSavedData extends SavedData {
                     teamPlayerDelegates.put(multiblockType, ownerUUID);
                     this.setDirty();
                     return true;
-                } else if (existingActivation.equals(ownerUUID)) {
+                } else if (existingActivation.equals(machineUUID)) {
                     teamPlayerDelegates.put(multiblockType, ownerUUID);
                     this.setDirty();
                     return true;

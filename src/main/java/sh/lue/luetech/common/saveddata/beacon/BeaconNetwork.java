@@ -6,6 +6,7 @@ import net.minecraft.core.UUIDUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LueTech;
+import sh.lue.luetech.common.machine.multiblock.part.EldritchEnergyHatchPartMachine;
 import sh.lue.luetech.utils.BigIntegerUtils;
 
 import java.math.BigInteger;
@@ -118,6 +119,12 @@ public class BeaconNetwork {
         if (active != this.active) {
             this.active = active;
             LueTech.savedData.setDirty();
+            var networkHatches = EldritchEnergyHatchPartMachine.NETWORK_MEMBERS.get(uuid);
+            if (networkHatches != null) {
+                for (var hatch : networkHatches) {
+                    hatch.onNetworkActiveChange();
+                }
+            }
         }
     }
 

@@ -29,6 +29,7 @@ import java.util.Set;
 import java.util.UUID;
 
 public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine {
+    @ApiStatus.Internal
     public static final Map<UUID, Set<EldritchEnergyHatchPartMachine>> NETWORK_MEMBERS = new Object2ObjectOpenHashMap<>();
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -112,6 +113,11 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine {
         unsubscribeFromTick();
     }
 
+    @ApiStatus.Internal
+    public void onNetworkActiveChange() {
+        updateTickSubscription();
+    }
+
     @MustBeInvokedByOverriders
     @Override
     public void addedToController(IMultiController controller) {
@@ -150,7 +156,7 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine {
             shouldTick = getControllers().stream()
                     .noneMatch(c -> c instanceof DominanceBeaconMachine);
         }
-        if (network == null || !shouldTick) {
+        if (network == null || !network.getActive() || !shouldTick) {
             unsubscribeFromTick();
         } else if (tickSubscription == null) {
             tickSubscription = subscribeServerTick(this::tick);
@@ -179,17 +185,15 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine {
             }
         } else {
             long stored = energyContainer.getEnergyStored();
-            if (stored > 0) {
+            var maxNetworkPower = network.getMaxPower();
+            if (stored > 0 && networkPower.compareTo(maxNetworkPower) < 0) {
                 long transferLimit = voltage * amperage;
-                long toPush = Math.min(stored, transferLimit);
-                networkPower = networkPower.add(BigInteger.valueOf(toPush));
-                var maxPower = network.getMaxPower();
-                if (maxPower.compareTo(networkPower) < 0) {
-                    toPush -= BigIntegerUtils.saturatedValue(networkPower.subtract(maxPower));
-                    networkPower = maxPower;
+                long availableCapacity = BigIntegerUtils.saturatedValue(maxNetworkPower.subtract(networkPower));
+                long toPush = Math.min(Math.min(stored, transferLimit), availableCapacity);
+                if (toPush > 0) {
+                    network.setStoredPower(networkPower.add(BigInteger.valueOf(toPush)));
+                    energyContainer.changeEnergy(-toPush);
                 }
-                network.setStoredPower(networkPower);
-                energyContainer.changeEnergy(-toPush);
             }
         }
     }

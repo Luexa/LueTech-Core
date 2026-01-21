@@ -59,6 +59,14 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
     }
 
     @Override
+    public void setWorkingEnabled(boolean isWorkingAllowed) {
+        super.setWorkingEnabled(isWorkingAllowed);
+        if (allowedToRun && network != null) {
+            network.setActive(isWorkingEnabled());
+        }
+    }
+
+    @Override
     public void onMachineRemoved() {
         super.onMachineRemoved();
         if (getLevel() instanceof ServerLevel && network != null) {
@@ -80,6 +88,7 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
                 savedData.dominanceBeacon.deleteNetwork(playerNetwork.getUUID());
             }
             savedData.dominanceBeacon.setNetworkPlayer(network, playerUUID);
+            network.setActive(isFormed() && isWorkingEnabled());
             return;
         }
         if (playerNetwork != null) {
@@ -89,6 +98,7 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
         if (network == null) {
             network = savedData.dominanceBeacon.createNetwork(playerUUID, teamUUID);
         }
+        network.setActive(isFormed() && isWorkingEnabled());
     }
 
     @Override
@@ -112,18 +122,12 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
                 } else {
                     textList.add(Component.translatable("luetech.multiblock.unique_disabled"));
                 }
-            } else if (isActive()) {
-                if (network != null) {
-                    textList.add(Component.translatable("luetech.multiblock.beacon.network_uuid",
-                            network.getUUID().toString()));
-                }
-                textList.add(Component.translatable("luetech.multiblock.beacon.network_active"));
             } else {
                 if (network != null) {
                     textList.add(Component.translatable("luetech.multiblock.beacon.network_uuid",
                             network.getUUID().toString()));
                 }
-                textList.add(Component.translatable("luetech.multiblock.beacon.network_inactive"));
+                textList.add(Component.translatable("luetech.multiblock.beacon.network_active"));
             }
         } else if (!allowedToRun) {
             textList.add(Component.translatable("luetech.multiblock.unique_disabled"));

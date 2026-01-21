@@ -100,6 +100,7 @@ public abstract class UniqueMultiblockMachine extends WorkableElectricMultiblock
                 if (deactivateMachine != null) {
                     deactivateMachine.allowedToRun = false;
                     deactivateMachine.getRecipeLogic().setStatus(RecipeLogic.Status.SUSPEND);
+                    deactivateMachine.onUpdateStatus();
                 }
             }
             allowedToRun = true;

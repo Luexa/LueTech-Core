@@ -1,22 +1,29 @@
 package sh.lue.luetech.data;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.*;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.machine.GTMachineUtils;
 import com.gregtechceu.gtceu.data.medicalcondition.GTMedicalConditions;
 import com.gregtechceu.gtceu.data.recipe.GTRecipeModifiers;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.tterrag.registrate.util.nullness.NonNullBiFunction;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import sh.lue.luetech.LueTech;
+import sh.lue.luetech.common.machine.multiblock.part.EldritchEnergyHatchPartMachine;
 
 import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.ALL_TIERS;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.ELECTRIC_TIERS;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.defaultEnvironmentRequirement;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.defaultTankSizeFunction;
@@ -99,5 +106,32 @@ public class LTMachineUtils {
                             .register();
                 },
                 tiers);
+    }
+
+    @NotNull
+    public static MachineDefinition[] registerEldritchHatches(int amperage, boolean uplink) {
+        String variant = uplink ? "uplink" : "downlink";
+        String multiOrNot = variant + (amperage == 2 ? "" : "_multiamp");
+        String id = "eldritch_energy_" + variant + "_hatch" + (amperage == 2 ? "" : "_" + amperage + "a");
+        String nameSuffix = " Eldritch Energy " + (amperage == 2 ? "" : amperage + "A ") +
+                (uplink ? "Up" : "Down") + "link Hatch";
+        String overlayPath = "eldritch_" + (uplink ? "input" : "output") + "_" + amperage + "a";
+        return registerTieredMachines(
+                id,
+                (holder, tier) -> new EldritchEnergyHatchPartMachine(holder, tier, uplink, amperage),
+                (tier, builder) -> builder
+                        .langValue(VNF[tier] + nameSuffix)
+                        .rotationState(RotationState.ALL)
+                        .abilities(uplink ? PartAbility.OUTPUT_ENERGY : PartAbility.INPUT_ENERGY)
+                        .tooltips(Component.translatable("luetech.machine.eldritch_energy_hatch." + variant + ".voltage",
+                                        FormattingUtil.formatNumbers(V[tier]), VNF[tier]),
+                                Component.translatable("luetech.machine.eldritch_energy_hatch." + variant + ".amperage", amperage),
+                                Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
+                                        FormattingUtil
+                                                .formatNumbers(EnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))),
+                                Component.translatable("luetech.machine.eldritch_energy_hatch." + multiOrNot + ".tooltip"))
+                        .overlayTieredHullModel(overlayPath)
+                        .register(),
+                ALL_TIERS);
     }
 }
