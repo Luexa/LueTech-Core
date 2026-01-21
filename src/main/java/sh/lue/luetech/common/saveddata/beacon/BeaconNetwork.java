@@ -40,8 +40,6 @@ public class BeaconNetwork {
 
         if (storedPower.compareTo(BigInteger.ZERO) < 0) {
             storedPower = BigInteger.ZERO;
-        } else if (storedPower.compareTo(maxPower) > 0) {
-            storedPower = maxPower;
         }
 
         this.uuid = uuid;

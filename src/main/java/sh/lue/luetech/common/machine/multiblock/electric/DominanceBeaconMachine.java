@@ -2,6 +2,7 @@ package sh.lue.luetech.common.machine.multiblock.electric;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.network.chat.Component;
@@ -38,6 +39,9 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
         super.onStructureFormed();
         if (getLevel() instanceof ServerLevel && allowedToRun) {
             loadNetwork();
+            if (isWorkingEnabled() && isFormed()) {
+                getRecipeLogic().setStatus(RecipeLogic.Status.WORKING);
+            }
         }
     }
 
@@ -55,6 +59,9 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
             network = null;
         } else {
             loadNetwork();
+            if (isWorkingEnabled() && isFormed()) {
+                getRecipeLogic().setStatus(RecipeLogic.Status.WORKING);
+            }
         }
     }
 
@@ -63,6 +70,9 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
         super.setWorkingEnabled(isWorkingAllowed);
         if (allowedToRun && network != null) {
             network.setActive(isWorkingEnabled());
+            if (isWorkingEnabled() && isFormed()) {
+                getRecipeLogic().setStatus(RecipeLogic.Status.WORKING);
+            }
         }
     }
 
@@ -122,11 +132,7 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
                 } else {
                     textList.add(Component.translatable("luetech.multiblock.unique_disabled"));
                 }
-            } else {
-                if (network != null) {
-                    textList.add(Component.translatable("luetech.multiblock.beacon.network_uuid",
-                            network.getUUID().toString()));
-                }
+            } else if (network != null ) {
                 textList.add(Component.translatable("luetech.multiblock.beacon.network_active"));
             }
         } else if (!allowedToRun) {

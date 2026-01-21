@@ -21,17 +21,17 @@ public class MiscLang {
         provider.add("luetech.multiblock.beacon.network_inactive", ChatFormatting.AQUA + "Network inactive.");
         provider.add("luetech.multiblock.beacon.network_uuid", "Network UUID: %s");
         provider.add("luetech.machine.eldritch_energy_hatch.uplink.voltage",
-                ChatFormatting.GREEN + "Voltage EXPORT: " + ChatFormatting.RESET + "%s EU/t (%s" + ChatFormatting.RESET + ")");
+                ChatFormatting.GREEN + "Voltage UPLOAD: " + ChatFormatting.RESET + "%s EU/t (%s" + ChatFormatting.RESET + ")");
         provider.add("luetech.machine.eldritch_energy_hatch.uplink.amperage",
-                ChatFormatting.YELLOW + "Amperage EXPORT: " + ChatFormatting.RESET + "%sA");
+                ChatFormatting.YELLOW + "Amperage UPLOAD: " + ChatFormatting.RESET + "%sA");
         provider.add("luetech.machine.eldritch_energy_hatch.uplink.tooltip",
                 "Energy Uploader for Multiblocks");
         provider.add("luetech.machine.eldritch_energy_hatch.uplink_multiamp.tooltip",
                 "Multiple Ampere Energy Uploader for Multiblocks");
         provider.add("luetech.machine.eldritch_energy_hatch.downlink.voltage",
-                ChatFormatting.GREEN + "Voltage IMPORT: " + ChatFormatting.RESET + "%s EU/t (%s" + ChatFormatting.RESET + ")");
+                ChatFormatting.GREEN + "Voltage DOWNLOAD: " + ChatFormatting.RESET + "%s EU/t (%s" + ChatFormatting.RESET + ")");
         provider.add("luetech.machine.eldritch_energy_hatch.downlink.amperage",
-                ChatFormatting.YELLOW + "Amperage IMPORT: " + ChatFormatting.RESET + "%sA");
+                ChatFormatting.YELLOW + "Amperage DOWNLOAD: " + ChatFormatting.RESET + "%sA");
         provider.add("luetech.machine.eldritch_energy_hatch.downlink.tooltip",
                 "Energy Downloader for Multiblocks");
         provider.add("luetech.machine.eldritch_energy_hatch.downlink_multiamp.tooltip",
