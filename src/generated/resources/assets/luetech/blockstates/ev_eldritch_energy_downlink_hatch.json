@@ -1,0 +1,28 @@
+{
+    "variants": {
+        "facing=down": {
+            "model": "luetech:block/machine/ev_eldritch_energy_downlink_hatch",
+            "x": 90
+        },
+        "facing=east": {
+            "model": "luetech:block/machine/ev_eldritch_energy_downlink_hatch",
+            "y": 90
+        },
+        "facing=north": {
+            "model": "luetech:block/machine/ev_eldritch_energy_downlink_hatch"
+        },
+        "facing=south": {
+            "model": "luetech:block/machine/ev_eldritch_energy_downlink_hatch",
+            "y": 180
+        },
+        "facing=up": {
+            "gtceu:z": 180,
+            "model": "luetech:block/machine/ev_eldritch_energy_downlink_hatch",
+            "x": 270
+        },
+        "facing=west": {
+            "model": "luetech:block/machine/ev_eldritch_energy_downlink_hatch",
+            "y": 270
+        }
+    }
+}

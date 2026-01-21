@@ -1,7 +1,6 @@
 package sh.lue.luetech.commands;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.suggestion.Suggestions;
@@ -18,7 +17,6 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import sh.lue.luetech.LueTech;
 
 import java.math.BigInteger;
-import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
@@ -27,7 +25,7 @@ import java.util.function.Supplier;
 public class LueTechCommand {
     private static final Component NEWLINE = Component.literal("\n");
     private static final Component DOUBLE_NEWLINE = Component.literal("\n\n");
-    private static final Component NETWORK_HEADER = Component.literal("Network: ")
+    private static final Component NETWORK_ENTRY = Component.literal("Network: ")
             .withStyle(ChatFormatting.AQUA);
     private static final Component PLAYER_UUID_ENTRY = Component.literal("Owner: ")
             .withStyle(ChatFormatting.AQUA);
@@ -106,7 +104,7 @@ public class LueTechCommand {
                 }
                 firstNetwork = false;
                 listing
-                        .append(NETWORK_HEADER)
+                        .append(NETWORK_ENTRY)
                         .append(Component.literal(uuid.toString()).withStyle(ChatFormatting.GOLD))
                         .append(NEWLINE)
                         .append(PLAYER_UUID_ENTRY)

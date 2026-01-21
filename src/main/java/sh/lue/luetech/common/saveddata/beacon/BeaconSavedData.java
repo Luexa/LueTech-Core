@@ -6,6 +6,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LueTech;
+import sh.lue.luetech.common.machine.multiblock.part.EldritchEnergyHatchPartMachine;
 
 import java.math.BigInteger;
 import java.util.*;
@@ -70,6 +71,7 @@ public class BeaconSavedData {
     }
 
     public void deleteNetwork(@NotNull UUID networkUUID) {
+        removeAllHatches(networkUUID);
         var network = networksByNetworkUUID.get(networkUUID);
         if (network == null) return;
         if (network.teamUUID != null) {
@@ -83,7 +85,13 @@ public class BeaconSavedData {
             networksByPlayerUUID.remove(network.playerUUID);
         }
         networksByNetworkUUID.remove(network.uuid);
-        LueTech.savedData.setDirty();
+        network.setActive(false);
+    }
+
+    private void removeAllHatches(@NotNull UUID networkUUID) {
+        var networkHatches = EldritchEnergyHatchPartMachine.NETWORK_MEMBERS.get(networkUUID);
+        if (networkHatches == null) return;
+        networkHatches.forEach(EldritchEnergyHatchPartMachine::onDeleteNetwork);
     }
 
     @NotNull

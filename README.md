@@ -26,3 +26,5 @@ Any assets purely original to LueTech are LGPL-3.0 unless otherwise specified.
 - [Just Dire Things](https://github.com/Direwolf20-MC/JustDireThings): MIT
   * Timewind Goo's texture is a recolor of VoidShimmer Goo.
   * Raw Elementium Ore is a recolor of Raw Celestigem Ore and uses the same model file.
+- [PhoenixCore](https://github.com/Phoenixvine32908/PhoenixCore): LGPL-3.0
+  * Eldritch Energy Hatch implementation adapted from Tesla Energy Hatch.
