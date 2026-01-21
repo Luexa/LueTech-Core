@@ -1,0 +1,12 @@
+{
+    "values": [
+        {
+            "id": "luetech:planetary_processor_singularity",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_max_circuit",
+            "required": false
+        }
+    ]
+}

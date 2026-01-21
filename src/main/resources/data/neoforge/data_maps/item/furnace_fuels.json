@@ -1,0 +1,19 @@
+{
+  "values": {
+    "minecraft:coal_block": {
+      "burn_time": 14400
+    },
+    "justdirethings:coalblock_t1": {
+      "burn_time": 43200
+    },
+    "justdirethings:coalblock_t2": {
+      "burn_time": 129600
+    },
+    "justdirethings:coalblock_t3": {
+      "burn_time": 388800
+    },
+    "justdirethings:coalblock_t4": {
+      "burn_time": 1166400
+    }
+  }
+}

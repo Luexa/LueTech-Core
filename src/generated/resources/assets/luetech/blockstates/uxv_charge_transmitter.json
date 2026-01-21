@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "luetech:block/machine/uxv_charge_transmitter"
+        }
+    }
+}

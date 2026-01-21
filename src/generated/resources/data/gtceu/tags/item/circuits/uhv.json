@@ -1,0 +1,20 @@
+{
+    "values": [
+        {
+            "id": "luetech:spectral_processor_computer",
+            "required": false
+        },
+        {
+            "id": "luetech:elemental_processor_assembly",
+            "required": false
+        },
+        {
+            "id": "luetech:temporal_processor",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uhv_circuit",
+            "required": false
+        }
+    ]
+}

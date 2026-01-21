@@ -1,0 +1,64 @@
+{
+    "values": [
+        {
+            "id": "luetech:universal_ulv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_lv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_mv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_hv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_ev_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_iv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_luv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_zpm_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uhv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uev_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uiv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uxv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_opv_circuit",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_max_circuit",
+            "required": false
+        }
+    ]
+}

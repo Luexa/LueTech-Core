@@ -1,0 +1,285 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'net.neoforged.moddev' version '2.0.137'
+    id 'idea'
+}
+
+version = mod_version
+group = mod_group_id
+
+repositories {
+    mavenCentral()
+    // GregTech CEU
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.gtceu.com" } }
+        filter {
+            includeGroup 'com.gregtechceu.gtceu'
+        }
+    }
+    // LDLib
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.firstdark.dev/snapshots" } }
+        filter {
+            includeGroup 'com.lowdragmc.ldlib'
+        }
+    }
+    // Registrate
+    exclusiveContent {
+        forRepository { maven { url = "https://mvn.devos.one/snapshots/" } }
+        filter {
+            includeGroup 'com.tterrag.registrate'
+        }
+    }
+    // Configuration
+    exclusiveContent {
+        forRepository { maven { url = "https://repo.repsy.io/mvn/toma/public" } }
+        filter {
+            includeGroup 'dev.toma.configuration'
+        }
+    }
+    // EMI
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.terraformersmc.com/releases/" } }
+        filter {
+            includeGroup 'dev.emi'
+        }
+    }
+    // JEI
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.blamejared.com" } }
+        filter {
+            includeGroup 'mezz.jei'
+        }
+    }
+    // ae2wtlib
+    exclusiveContent {
+        forRepository { maven { url = "https://modmaven.dev/" } }
+        filter {
+            includeGroup 'de.mari_023'
+        }
+    }
+    // KubeJS
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.latvian.dev/releases" } }
+        filter {
+            includeGroup 'dev.latvian.mods'
+            includeGroup 'dev.latvian.apps'
+        }
+    }
+    // Curse Maven
+    exclusiveContent {
+        forRepository { maven { url = "https://cursemaven.com/" } }
+        filter {
+            includeGroup 'curse.maven'
+        }
+    }
+    // Modrinth Maven
+    exclusiveContent {
+        forRepository { maven { url = "https://api.modrinth.com/maven/" } }
+        filter {
+            includeGroup 'maven.modrinth'
+        }
+    }
+    // Occultism + Modonomicon
+    exclusiveContent {
+        forRepository { maven { url = "https://dl.cloudsmith.io/public/klikli-dev/mods/maven/" } }
+        filter {
+            includeGroup 'com.klikli_dev'
+        }
+    }
+    // Curios
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.theillusivec4.top/" } }
+        filter {
+            includeGroup 'top.theillusivec4.curios'
+        }
+    }
+    // SmartBrainLib
+    exclusiveContent {
+        forRepository { maven { url = "https://dl.cloudsmith.io/public/tslat/sbl/maven/" } }
+        filter {
+            includeGroup 'net.tslat.smartbrainlib'
+        }
+    }
+    // Ponder, Flywheel
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.createmod.net" } }
+        filter {
+            includeGroup 'net.createmod.ponder'
+            includeGroup 'dev.engine-room.flywheel'
+        }
+    }
+    // FTB Library, FTB Teams
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.ftb.dev/releases/" } }
+        filter {
+            includeGroup 'dev.ftb.mods'
+        }
+    }
+    // Architectury
+    exclusiveContent {
+        forRepository { maven { url = "https://maven.architectury.dev" } }
+        filter {
+            includeGroup 'dev.architectury'
+        }
+    }
+}
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = project.neo_version
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+            programArguments.addAll '--mod', project.mod_id, '--all',
+                    '--output', file('src/generated/resources/').getAbsolutePath(),
+                    '--existing', file('src/main/resources/').getAbsolutePath(),
+                    '--existing-mod', 'gtceu'
+        }
+
+        configureEach {
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
+dependencies {
+    implementation("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtm_version}") { transitive = false }
+    implementation("com.tterrag.registrate:Registrate:${registrate_version}") { transitive = false }
+    implementation("curse.maven:just-dire-things-1002348:${jdt_curse}") { transitive = false }
+    compileOnly("dev.ftb.mods:ftb-teams-neoforge:${ftbteams_version}") { transitive = false }
+    compileOnly("dev.ftb.mods:ftb-library-neoforge:${ftblibrary_version}") { transitive = false }
+    compileOnly("dev.architectury:architectury-neoforge:${architectury_version}") { transitive = false }
+    jarJar(implementation("net.createmod.ponder:ponder-neoforge:${ponder_version}+mc${minecraft_version}"))
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${minecraft_version}:${flywheel_version}")
+    runtimeOnly(jarJar("dev.engine-room.flywheel:flywheel-neoforge-${minecraft_version}:${flywheel_version}") {
+        version {
+            strictly "[${flywheel_version},2.0)"
+            prefer flywheel_version
+        }
+    })
+    compileOnly("com.lowdragmc.ldlib:ldlib-neoforge-${minecraft_version}:${ldlib_version}") { transitive = false }
+    compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}") { transitive = false }
+    compileOnly("curse.maven:ex-pattern-provider-892005:${extendedae_curse}") { transitive = false }
+    compileOnly("curse.maven:advancedae-1084104:${advancedae_curse}") { transitive = false }
+    compileOnly("dev.latvian.mods:kubejs-neoforge:2101.7.1-build.181")
+    compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}") { transitive = false }
+    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}") { transitive = false }
+    compileOnly("com.klikli_dev:occultism-${minecraft_version}-neoforge:${occultism_version}") { transitive = false }
+    compileOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}") { transitive = false }
+
+    localRuntime "dev.emi:emi-neoforge:${emi_version}"
+    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+    localRuntime "maven.modrinth:jade:${jade_version}"
+    localRuntime "org.appliedenergistics:appliedenergistics2:${ae2_version}"
+    localRuntime "de.mari_023:ae2wtlib:${ae2wtlib_version}"
+    localRuntime "curse.maven:spark-361579:${spark_curse}"
+    localRuntime "curse.maven:glodium-957920:${glodium_curse}"
+    localRuntime "curse.maven:geckolib-388172:${geckolib_curse}"
+    localRuntime "curse.maven:ex-pattern-provider-892005:${extendedae_curse}"
+    localRuntime "curse.maven:advancedae-1084104:${advancedae_curse}"
+    localRuntime "curse.maven:expanded-ae-1213351:${expandedae_curse}"
+    localRuntime("com.klikli_dev:occultism-${minecraft_version}-neoforge:${occultism_version}") { transitive = false }
+    localRuntime("net.tslat.smartbrainlib:SmartBrainLib-neoforge-1.21:${smartbrainlib_version}") { transitive = false }
+    localRuntime("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}") { transitive = false }
+    localRuntime("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}") { transitive = false }
+    localRuntime("dev.architectury:architectury-neoforge:${architectury_version}") { transitive = false }
+    localRuntime("dev.ftb.mods:ftb-teams-neoforge:${ftbteams_version}") { transitive = false }
+    localRuntime("dev.ftb.mods:ftb-library-neoforge:${ftblibrary_version}") { transitive = false }
+}
+
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : minecraft_version,
+            minecraft_version_range: minecraft_version_range,
+            neo_version            : neo_version,
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_name               : mod_name,
+            mod_license            : mod_license,
+            mod_version            : mod_version,
+            mod_authors            : mod_authors,
+            mod_description        : mod_description,
+            gtm_version            : gtm_version,
+            ae2_version            : ae2_version,
+            extendedae_version     : extendedae_version,
+            advancedae_version     : advancedae_version,
+            jdt_version            : jdt_version,
+            emi_version            : emi_version,
+            jei_version            : jei_version,
+            occultism_version      : occultism_version,
+            ponder_version         : ponder_version,
+            ftbteams_version       : ftbteams_version,
+    ]
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
+}
+sourceSets.main.resources.srcDir generateModMetadata
+neoForge.ideSyncTask generateModMetadata
+
+publishing {
+    publications {
+        register('mavenJava', MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

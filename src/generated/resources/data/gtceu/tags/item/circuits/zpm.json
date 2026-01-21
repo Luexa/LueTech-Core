@@ -1,0 +1,12 @@
+{
+    "values": [
+        {
+            "id": "luetech:spectral_processor",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_zpm_circuit",
+            "required": false
+        }
+    ]
+}

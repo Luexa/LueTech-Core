@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "luetech:block/elementium_ore",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "luetech:block/elementium_ore",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "luetech:block/elementium_ore",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "luetech:block/elementium_ore",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "luetech:block/elementium_ore"
+    },
+    "facing=west": {
+      "model": "luetech:block/elementium_ore",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

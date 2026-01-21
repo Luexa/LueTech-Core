@@ -1,0 +1,12 @@
+{
+    "values": [
+        {
+            "id": "luetech:planetary_processor_mainframe",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_opv_circuit",
+            "required": false
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+{
+    "values": [
+        {
+            "id": "luetech:temporal_processor_mainframe",
+            "required": false
+        },
+        {
+            "id": "luetech:planetary_processor_computer",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uxv_circuit",
+            "required": false
+        }
+    ]
+}

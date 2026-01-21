@@ -1,0 +1,19 @@
+{
+    "variants": {
+        "facing=east": {
+            "model": "luetech:block/machine/uxv_atomic_rewriter",
+            "y": 90
+        },
+        "facing=north": {
+            "model": "luetech:block/machine/uxv_atomic_rewriter"
+        },
+        "facing=south": {
+            "model": "luetech:block/machine/uxv_atomic_rewriter",
+            "y": 180
+        },
+        "facing=west": {
+            "model": "luetech:block/machine/uxv_atomic_rewriter",
+            "y": 270
+        }
+    }
+}

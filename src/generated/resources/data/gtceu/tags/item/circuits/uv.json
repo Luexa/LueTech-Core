@@ -1,0 +1,16 @@
+{
+    "values": [
+        {
+            "id": "luetech:spectral_processor_assembly",
+            "required": false
+        },
+        {
+            "id": "luetech:elemental_processor",
+            "required": false
+        },
+        {
+            "id": "luetech:universal_uv_circuit",
+            "required": false
+        }
+    ]
+}

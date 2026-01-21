@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "luetech:block/machine/zpm_charge_transmitter"
+        }
+    }
+}

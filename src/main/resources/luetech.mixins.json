@@ -1,0 +1,28 @@
+{
+  "required": true,
+  "package": "sh.lue.luetech.mixins",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "plugin": "sh.lue.luetech.mixins.LTMixinPlugin",
+  "mixins": [
+    "gtceu.GTCommonInitMixin",
+    "gtceu.GTFluidsMixin",
+    "gtceu.GTMaterialItemsMixin",
+    "gtceu.KJSRecipeAccessor",
+    "gtceu.KJSRecipeFixMixin",
+    "gtceu.LangHandlerInvoker",
+    "gtceu.ToolHelperMixin",
+    "jdt.PoweredMachineBEMixin",
+    "neoforge.BuildCreativeModeTabContentsEventMixin"
+  ],
+  "client": [
+    "client.gtceu.MaterialPipeBlockItemMixin",
+    "client.jdt.GooBlockRenderBaseMixin",
+    "client.jdt.JEIGooSpreadRecipeCategoryMixin",
+    "client.jdt.JEIGooSpreadRecipeTagCategoryMixin",
+    "client.jdt.JEIIntegrationMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

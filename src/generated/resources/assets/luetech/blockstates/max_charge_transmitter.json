@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "luetech:block/machine/max_charge_transmitter"
+        }
+    }
+}

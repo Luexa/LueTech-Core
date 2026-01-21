@@ -1,0 +1,10 @@
+{
+    "variants": {
+        "alive=false": {
+            "model": "luetech:block/timewind_goo_dead"
+        },
+        "alive=true": {
+            "model": "luetech:block/timewind_goo"
+        }
+    }
+}
