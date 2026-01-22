@@ -48,6 +48,7 @@ public class LueTech {
 
     public LueTech(IEventBus modEventBus, ModContainer modContainer) {
         LueTech.modEventBus = modEventBus;
+        LTDatagen.init();
 
         LTDataComponents.DATA_COMPONENTS.register(modEventBus);
         LTBlocks.init();
@@ -74,7 +75,6 @@ public class LueTech {
         LTElements.init();
         LTMaterials.init();
         LTMachines.init();
-        LTDatagen.init();
     }
 
     @SubscribeEvent

@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.ALL_TIERS;
+import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.HIGH_TIERS;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.ELECTRIC_TIERS;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.defaultEnvironmentRequirement;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.defaultTankSizeFunction;
@@ -132,6 +133,6 @@ public class LTMachineUtils {
                                 Component.translatable("luetech.machine.eldritch_energy_hatch." + multiOrNot + ".tooltip"))
                         .overlayTieredHullModel(overlayPath)
                         .register(),
-                ALL_TIERS);
+                amperage == 2 ? ALL_TIERS : HIGH_TIERS);
     }
 }
