@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import sh.lue.luetech.common.machine.IBeaconConnected;
 import sh.lue.luetech.common.machine.multiblock.UniqueMultiblockMachine;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 
@@ -16,7 +17,7 @@ import java.util.List;
 
 import static sh.lue.luetech.LueTech.savedData;
 
-public class DominanceBeaconMachine extends UniqueMultiblockMachine {
+public class DominanceBeaconMachine extends UniqueMultiblockMachine implements IBeaconConnected {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             DominanceBeaconMachine.class,
             UniqueMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -139,5 +140,11 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine {
             textList.add(Component.translatable("luetech.multiblock.unique_disabled"));
         }
         getDefinition().getAdditionalDisplay().accept(this, textList);
+    }
+
+    @Override
+    @Nullable
+    public BeaconNetwork getConnectedBeaconNetwork() {
+        return network;
     }
 }

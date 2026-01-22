@@ -78,6 +78,13 @@ ordering="AFTER"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
+modId="jade"
+type="optional"
+versionRange="[${jade_version},)"
+ordering="AFTER"
+side="BOTH"
+
+[[dependencies.${mod_id}]]
 modId="occultism"
 type="required"
 versionRange="[${occultism_version},)"

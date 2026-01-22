@@ -18,6 +18,7 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LueTech;
+import sh.lue.luetech.common.machine.IBeaconConnected;
 import sh.lue.luetech.common.machine.multiblock.electric.DominanceBeaconMachine;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 import sh.lue.luetech.utils.BigIntegerUtils;
@@ -28,7 +29,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine {
+public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine implements IBeaconConnected {
     @ApiStatus.Internal
     public static final Map<UUID, Set<EldritchEnergyHatchPartMachine>> NETWORK_MEMBERS = new Object2ObjectOpenHashMap<>();
 
@@ -206,5 +207,11 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine {
         container.setSideOutputCondition(Predicates.alwaysFalse());
         container.setCapabilityValidator(Objects::isNull);
         return container;
+    }
+
+    @Override
+    @Nullable
+    public BeaconNetwork getConnectedBeaconNetwork() {
+        return network;
     }
 }

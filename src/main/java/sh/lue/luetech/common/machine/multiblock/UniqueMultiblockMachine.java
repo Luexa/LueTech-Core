@@ -62,7 +62,7 @@ public abstract class UniqueMultiblockMachine extends WorkableElectricMultiblock
     public void onLoad() {
         super.onLoad();
         if (getLevel() instanceof ServerLevel) {
-            if (machineUUID == null) {
+            if (machineUUID == null || ALL_INSTANCES.get(machineUUID) != null) {
                 machineUUID = UUID.randomUUID();
             }
             ALL_INSTANCES.put(machineUUID, this);
