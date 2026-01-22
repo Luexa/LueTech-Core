@@ -1,5 +1,6 @@
 package sh.lue.luetech.integration.jade.provider;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
@@ -17,6 +18,7 @@ import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 import snownee.jade.api.ui.BoxStyle;
 import snownee.jade.api.ui.IElementHelper;
+import snownee.jade.impl.Tooltip;
 
 import java.math.BigInteger;
 
@@ -28,6 +30,9 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
     private static final String STORED_POWER = "stored_power";
     private static final String MAX_POWER = "max_power";
     private static final BigInteger THRESHOLD = BigInteger.valueOf(1000000000000L);
+    private static final ResourceLocation ELECTRIC_CONTAINER_UID = GTCEu.id("electric_container_provider");
+    private static final ResourceLocation MAINTENANCE_UID = GTCEu.id("maintenance_info");
+    private static final ResourceLocation STRUCTURE_FORMED_UID = GTCEu.id("multiblock_structure");
 
     @Override
     public void appendServerData(CompoundTag tag, BlockAccessor accessor) {
@@ -50,19 +55,38 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
     }
 
     @Override
-    public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
+    public void appendTooltip(ITooltip itooltip, BlockAccessor accessor, IPluginConfig config) {
+        Tooltip tooltip = (Tooltip) itooltip;
         var serverData = accessor.getServerData();
+        if (!serverData.contains(INACTIVE, Tag.TAG_BYTE) && !(serverData.contains(STORED_POWER, Tag.TAG_BYTE_ARRAY) && serverData.contains(MAX_POWER, Tag.TAG_BYTE_ARRAY))) {
+            return;
+        }
+        int indexToAdd = 0;
+        for (int i = 0; i < tooltip.lines.size(); ++i) {
+            indexToAdd = i + 1;
+            var elements = tooltip.lines.get(i).sortedElements();
+            if (elements.isEmpty()) continue;
+            var element = elements.getFirst();
+            var tag = element.getTag();
+            if (tag == null) continue;
+            if (tag.equals(ELECTRIC_CONTAINER_UID)) {
+                break;
+            }
+            if (tag.equals(MAINTENANCE_UID) || tag.equals(STRUCTURE_FORMED_UID)) {
+                indexToAdd -= 1;
+                break;
+            }
+        }
+
         if (serverData.contains(INACTIVE, Tag.TAG_BYTE)) {
             byte inactiveType = serverData.getByte(INACTIVE);
             if (inactiveType == 0) {
-                tooltip.add(Component.translatable("luetech.jade.beacon_inactive").withStyle(ChatFormatting.YELLOW));
+                tooltip.add(indexToAdd, Component.translatable("luetech.jade.beacon_inactive").withStyle(ChatFormatting.YELLOW));
             } else {
-                tooltip.add(Component.translatable("luetech.jade.beacon_not_connected").withStyle(ChatFormatting.RED));
+                tooltip.add(indexToAdd, Component.translatable("luetech.jade.beacon_not_connected").withStyle(ChatFormatting.RED));
             }
             return;
         }
-        if (!serverData.contains(STORED_POWER, CompoundTag.TAG_BYTE_ARRAY)) return;
-        if (!serverData.contains(MAX_POWER, CompoundTag.TAG_BYTE_ARRAY)) return;
         var storedPowerBytes = serverData.getByteArray(STORED_POWER);
         var maxPowerBytes = serverData.getByteArray(MAX_POWER);
         if (storedPowerBytes.length > 20 || maxPowerBytes.length > 20) return;
@@ -76,8 +100,8 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
         var storedPowerStr = FormattingUtil.formatNumberOrSic(storedPower, THRESHOLD);
         var maxPowerStr = FormattingUtil.formatNumberOrSic(maxPower, THRESHOLD);
         var helper = IElementHelper.get();
-        tooltip.add(Component.translatable("luetech.jade.beacon_network").withStyle(ChatFormatting.AQUA));
-        tooltip.add(
+        tooltip.add(indexToAdd, Component.translatable("luetech.jade.beacon_network").withStyle(ChatFormatting.AQUA));
+        tooltip.add(indexToAdd + 1,
                 helper.progress(
                         progress,
                         Component.translatable("gtceu.jade.energy_stored", storedPowerStr, maxPowerStr),
