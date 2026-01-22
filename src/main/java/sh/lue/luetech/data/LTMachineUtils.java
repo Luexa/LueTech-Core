@@ -113,7 +113,7 @@ public class LTMachineUtils {
         String variant = uplink ? "uplink" : "downlink";
         String multiOrNot = variant + (amperage == 2 ? "" : "_multiamp");
         String id = "eldritch_energy_" + variant + "_hatch" + (amperage == 2 ? "" : "_" + amperage + "a");
-        String nameSuffix = " Eldritch Energy " + (amperage == 2 ? "" : amperage + "A ") +
+        String nameSuffix = " " + (amperage == 2 ? "" : amperage + "A ") + "Eldritch " +
                 (uplink ? "Up" : "Down") + "link Hatch";
         String overlayPath = "eldritch_" + (uplink ? "input" : "output") + "_" + amperage + "a";
         return registerTieredMachines(

@@ -1,12 +1,11 @@
 package sh.lue.luetech.integration.jade.provider;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.integration.jade.GTJadePlugin;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import sh.lue.luetech.LueTech;
@@ -25,8 +24,9 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
     INSTANCE;
 
     public static final ResourceLocation UID = LueTech.id("beacon_network_info");
-    private static final String storedPowerKey = "luetech:beacon_stored_power";
-    private static final String maxPowerKey = "luetech:beacon_max_power";
+    private static final String INACTIVE = "inactive";
+    private static final String STORED_POWER = "stored_power";
+    private static final String MAX_POWER = "max_power";
     private static final BigInteger THRESHOLD = BigInteger.valueOf(1000000000000L);
 
     @Override
@@ -35,10 +35,16 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
         if (machineBlockEntity.getMetaMachine() instanceof IBeaconConnected machine) {
             var network = machine.getConnectedBeaconNetwork();
             if (network != null) {
-                var storedPower = network.getStoredPower();
-                var maxPower = network.getMaxPower();
-                tag.putByteArray("luetech:beacon_stored_power", storedPower.toByteArray());
-                tag.putByteArray("luetech:beacon_max_power", maxPower.toByteArray());
+                if (network.getActive()) {
+                    var storedPower = network.getStoredPower();
+                    var maxPower = network.getMaxPower();
+                    tag.putByteArray(STORED_POWER, storedPower.toByteArray());
+                    tag.putByteArray(MAX_POWER, maxPower.toByteArray());
+                } else {
+                    tag.putByte(INACTIVE, (byte) 0);
+                }
+            } else {
+                tag.putByte(INACTIVE, (byte) 1);
             }
         }
     }
@@ -46,10 +52,19 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
     @Override
     public void appendTooltip(ITooltip tooltip, BlockAccessor accessor, IPluginConfig config) {
         var serverData = accessor.getServerData();
-        if (!serverData.contains(storedPowerKey, CompoundTag.TAG_BYTE_ARRAY)) return;
-        if (!serverData.contains(maxPowerKey, CompoundTag.TAG_BYTE_ARRAY)) return;
-        var storedPowerBytes = serverData.getByteArray(storedPowerKey);
-        var maxPowerBytes = serverData.getByteArray(maxPowerKey);
+        if (serverData.contains(INACTIVE, Tag.TAG_BYTE)) {
+            byte inactiveType = serverData.getByte(INACTIVE);
+            if (inactiveType == 0) {
+                tooltip.add(Component.translatable("luetech.jade.beacon_inactive").withStyle(ChatFormatting.YELLOW));
+            } else {
+                tooltip.add(Component.translatable("luetech.jade.beacon_not_connected").withStyle(ChatFormatting.RED));
+            }
+            return;
+        }
+        if (!serverData.contains(STORED_POWER, CompoundTag.TAG_BYTE_ARRAY)) return;
+        if (!serverData.contains(MAX_POWER, CompoundTag.TAG_BYTE_ARRAY)) return;
+        var storedPowerBytes = serverData.getByteArray(STORED_POWER);
+        var maxPowerBytes = serverData.getByteArray(MAX_POWER);
         if (storedPowerBytes.length > 20 || maxPowerBytes.length > 20) return;
         var storedPower = new BigInteger(storedPowerBytes);
         var maxPower = new BigInteger(maxPowerBytes);
@@ -66,7 +81,7 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
                 helper.progress(
                         progress,
                         Component.translatable("gtceu.jade.energy_stored", storedPowerStr, maxPowerStr),
-                        helper.progressStyle().color(0xFFEEE600, 0xFFEEE600).textColor(-1),
+                        helper.progressStyle().color(0xFFFAF8FF, 0xFFFAF8FF).textColor(-1),
                         Util.make(BoxStyle.GradientBorder.DEFAULT_VIEW_GROUP,
                                 style -> style.borderColor = new int[] { 0xFF555555, 0xFF555555, 0xFF555555,
                                         0xFF555555 }),

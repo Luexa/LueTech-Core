@@ -1,4 +1,4 @@
-// 1.21.1	2026-01-22T09:38:24.468109908	Registrate Provider for luetech [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-01-22T17:24:20.949673749	Registrate Provider for luetech [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 af0eb0b88acb0684dd197cc805e508bdd9d4a77d assets/luetech/blockstates/beacon_of_dominance.json
 309c1f0e6c53c330c4df5a9aa0a27aef33367102 assets/luetech/blockstates/ev_atomic_rewriter.json
 4d8c1cba57c06bd8c2bca50865bc2597533590d2 assets/luetech/blockstates/ev_eldritch_energy_downlink_hatch.json
@@ -114,8 +114,8 @@ fec2815e4f54e9f01b801c13ebdf385aa47637b6 assets/luetech/blockstates/zpm_eldritch
 07219c4224bcd81a7a2ed1d46ad8d19fa5d01deb assets/luetech/blockstates/zpm_eldritch_energy_uplink_hatch.json
 3a4a7764db4cf92696daf507607963cf66cf5d1e assets/luetech/blockstates/zpm_eldritch_energy_uplink_hatch_16a.json
 37ebc93dbb6541822174511944cee5788f0c2596 assets/luetech/blockstates/zpm_eldritch_energy_uplink_hatch_4a.json
-55d6980459c87b6257761cfe59a03db8fe99c98d assets/luetech/lang/en_ud.json
-dad27d2ddaaf0a06472b72a72760dbb1e4dbae97 assets/luetech/lang/en_us.json
+7f05ef72f7a662e036f0450b29dd8a5be65a2435 assets/luetech/lang/en_ud.json
+eba3ddee0e1ba25d1485a8ea40fd21074f022f85 assets/luetech/lang/en_us.json
 521addd53c0817cdd93f31ce8f53f48111b5a971 assets/luetech/models/block/machine/beacon_of_dominance.json
 4e277c75978cf5e2da4f118afc64263fc5022c1b assets/luetech/models/block/machine/ev_atomic_rewriter.json
 751355a44d04abf998c7a47a7e03adf3f2e34532 assets/luetech/models/block/machine/ev_eldritch_energy_downlink_hatch.json

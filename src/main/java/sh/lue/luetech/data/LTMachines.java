@@ -16,12 +16,12 @@ public class LTMachines {
         REGISTRATE.creativeModeTab(LTCreativeModeTabs.MACHINE);
     }
 
-    public static final MachineDefinition[] ELDRITCH_ENERGY_UPLINK_HATCH = registerEldritchHatches(2, true);
-    public static final MachineDefinition[] ELDRITCH_ENERGY_DOWNLINK_HATCH = registerEldritchHatches(2, false);
-    public static final MachineDefinition[] ELDRITCH_ENERGY_UPLINK_HATCH_4A = registerEldritchHatches(4, true);
-    public static final MachineDefinition[] ELDRITCH_ENERGY_DOWNLINK_HATCH_4A = registerEldritchHatches(4, false);
-    public static final MachineDefinition[] ELDRITCH_ENERGY_UPLINK_HATCH_16A = registerEldritchHatches(16, true);
-    public static final MachineDefinition[] ELDRITCH_ENERGY_DOWNLINK_HATCH_16A = registerEldritchHatches(16, false);
+    public static final MachineDefinition[] ELDRITCH_UPLINK_HATCH = registerEldritchHatches(2, true);
+    public static final MachineDefinition[] ELDRITCH_DOWNLINK_HATCH = registerEldritchHatches(2, false);
+    public static final MachineDefinition[] ELDRITCH_UPLINK_HATCH_4A = registerEldritchHatches(4, true);
+    public static final MachineDefinition[] ELDRITCH_DOWNLINK_HATCH_4A = registerEldritchHatches(4, false);
+    public static final MachineDefinition[] ELDRITCH_UPLINK_HATCH_16A = registerEldritchHatches(16, true);
+    public static final MachineDefinition[] ELDRITCH_DOWNLINK_HATCH_16A = registerEldritchHatches(16, false);
 
     public static final MachineDefinition[] CHARGE_TRANSMITTER = registerTieredMachines(
             "charge_transmitter", ChargeTransmitterMachine::new,

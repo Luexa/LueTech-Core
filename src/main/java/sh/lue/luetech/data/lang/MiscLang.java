@@ -13,7 +13,10 @@ public class MiscLang {
         provider.add("recipe_type.luetech.atomic_rewriter", "Atomic Rewriter");
 
         // Jade Translations
-        provider.add("luetech.jade.beacon_network", "Beacon Network Power");
+        provider.add("luetech.jade.beacon_network", "Network Power");
+        provider.add("luetech.jade.beacon_inactive", "Network Inactive");
+        provider.add("luetech.jade.beacon_not_found", "No Connected Network");
+        provider.add("config.jade.plugin_luetech.beacon_network_info", "Beacon of Dominance Info");
 
         // Battery Pack & Wireless Charger
         provider.add("luetech.ui.battery_pack_status.enabled", "Discharge: Enabled");
