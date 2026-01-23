@@ -11,15 +11,5 @@ import sh.lue.luetech.data.LTMaterials;
 
 public class LootHandler {
     public static void init(RegistrateLootTableProvider provider) {
-        provider.addLootAction(RegistrateLootTableProvider.LootType.BLOCK, tables -> {
-            tables.add(LTBlocks.ELEMENTIUM_ORE.get(), tables.createSilkTouchDispatchTable(
-                    LTBlocks.ELEMENTIUM_ORE.get(),
-                    tables.applyExplosionDecay(
-                            LTBlocks.ELEMENTIUM_ORE.get(),
-                            LootItem.lootTableItem(ChemicalHelper.get(TagPrefix.rawOre, LTMaterials.Elementium).getItem())
-                                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(3.0F, 4.0F)))
-                    )
-            ));
-        });
     }
 }

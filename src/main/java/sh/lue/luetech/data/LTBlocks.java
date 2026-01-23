@@ -2,10 +2,15 @@ package sh.lue.luetech.data;
 
 import com.direwolf20.justdirethings.common.blocks.gooblocks.GooBlock_Base;
 import com.direwolf20.justdirethings.common.blocks.gooblocks.GooBlock_Item;
+import com.gregtechceu.gtceu.api.material.ChemicalHelper;
+import com.gregtechceu.gtceu.api.tag.TagPrefix;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import sh.lue.luetech.client.blockentityrender.TimewindGooRender;
 import sh.lue.luetech.common.block.ElementiumOreBlock;
@@ -51,6 +56,15 @@ public class LTBlocks {
             .blockstate(NonNullBiConsumer.noop())
             .item(BlockItem::new)
             .build()
+            .loot((tables, block) ->
+                tables.add(block, tables.createSilkTouchDispatchTable(
+                        block, tables.applyExplosionDecay(
+                                block,
+                                LootItem.lootTableItem(ChemicalHelper.get(TagPrefix.rawOre, LTMaterials.Elementium).getItem())
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(3.0F, 4.0F)))
+                        )
+                ))
+            )
             .register();
 
     public static void init() {
