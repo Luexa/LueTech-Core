@@ -31,6 +31,9 @@ public class LTMixinPlugin implements IMixinConfigPlugin {
         if (inSubpackage("neoforge", mixinClassName)) {
             return true;
         }
+        if (inSubpackage("gtceu.Jade", mixinClassName)) {
+            return isModLoaded("gtceu") && isModLoaded("jade");
+        }
         if (inSubpackage("gtceu.KJS", mixinClassName)) {
             return isModLoaded("gtceu") && isModLoaded("kubejs");
         }

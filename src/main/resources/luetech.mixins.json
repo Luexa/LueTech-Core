@@ -17,6 +17,7 @@
   ],
   "client": [
     "client.gtceu.MaterialPipeBlockItemMixin",
+    "client.gtceu.JadeMaintenanceBlockProviderMixin",
     "client.jdt.GooBlockRenderBaseMixin",
     "client.jdt.JEIGooSpreadRecipeCategoryMixin",
     "client.jdt.JEIGooSpreadRecipeTagCategoryMixin",

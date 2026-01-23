@@ -66,8 +66,7 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
             indexToAdd = i + 1;
             var elements = tooltip.lines.get(i).sortedElements();
             if (elements.isEmpty()) continue;
-            var element = elements.getFirst();
-            var tag = element.getTag();
+            var tag = elements.getFirst().getTag();
             if (tag == null) continue;
             if (tag.equals(ELECTRIC_CONTAINER_UID)) {
                 break;
@@ -100,8 +99,7 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
         var storedPowerStr = FormattingUtil.formatNumberOrSic(storedPower, THRESHOLD);
         var maxPowerStr = FormattingUtil.formatNumberOrSic(maxPower, THRESHOLD);
         var helper = IElementHelper.get();
-        tooltip.add(indexToAdd, Component.translatable("luetech.jade.beacon_network").withStyle(ChatFormatting.AQUA));
-        tooltip.add(indexToAdd + 1,
+        tooltip.add(indexToAdd,
                 helper.progress(
                         progress,
                         Component.translatable("gtceu.jade.energy_stored", storedPowerStr, maxPowerStr),
