@@ -1,4 +1,4 @@
-package sh.lue.luetech.data.recipe;
+package sh.lue.luetech.data.dynamic.recipe;
 
 import appeng.core.definitions.AEItems;
 import com.glodblock.github.extendedae.common.EAESingletons;
@@ -6,8 +6,6 @@ import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
 import net.pedroksl.advanced_ae.common.definitions.AAEItems;
-import net.pedroksl.advanced_ae.common.definitions.AAETags;
-import sh.lue.luetech.LTCompat;
 import sh.lue.luetech.LueTech;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;

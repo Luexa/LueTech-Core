@@ -210,8 +210,16 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
     }
 
     @Override
+    public boolean isBeaconConnected() {
+        return true;
+    }
+
+    @Override
     @Nullable
     public BeaconNetwork getConnectedBeaconNetwork() {
         return network;
     }
+
+    @Override
+    public void setBeaconNetwork(@Nullable UUID networkUUID) {}
 }

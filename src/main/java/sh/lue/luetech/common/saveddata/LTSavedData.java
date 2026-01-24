@@ -18,7 +18,6 @@ import sh.lue.luetech.LueTech;
 import sh.lue.luetech.common.saveddata.beacon.BeaconSavedData;
 
 import java.util.*;
-import java.util.function.Function;
 
 public final class LTSavedData extends SavedData {
     @NotNull

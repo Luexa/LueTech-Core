@@ -6,9 +6,9 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import sh.lue.luetech.common.registry.LTRegistration;
-import sh.lue.luetech.data.recipe.AssemblyLineRecipes;
-import sh.lue.luetech.data.recipe.AtomicRewriterRecipes;
-import sh.lue.luetech.data.recipe.UniversalCircuitRecipes;
+import sh.lue.luetech.data.dynamic.recipe.AssemblyLineRecipes;
+import sh.lue.luetech.data.dynamic.recipe.AtomicRewriterRecipes;
+import sh.lue.luetech.data.dynamic.recipe.MiscRecipes;
 
 import java.util.function.Consumer;
 
@@ -25,8 +25,8 @@ public class LueTechGTAddon implements IGTAddon {
     @Override
     public void addRecipes(RecipeOutput consumer) {
         AssemblyLineRecipes.init(consumer);
-        UniversalCircuitRecipes.init(consumer);
         AtomicRewriterRecipes.init(consumer);
+        MiscRecipes.init(consumer);
     }
 
     @Override

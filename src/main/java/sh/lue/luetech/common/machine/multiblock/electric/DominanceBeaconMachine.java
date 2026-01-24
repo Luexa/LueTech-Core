@@ -14,6 +14,7 @@ import sh.lue.luetech.common.machine.multiblock.UniqueMultiblockMachine;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 
 import java.util.List;
+import java.util.UUID;
 
 import static sh.lue.luetech.LueTech.savedData;
 
@@ -143,8 +144,17 @@ public class DominanceBeaconMachine extends UniqueMultiblockMachine implements I
     }
 
     @Override
+    public boolean isBeaconConnected() {
+        return true;
+    }
+
+    @Override
     @Nullable
     public BeaconNetwork getConnectedBeaconNetwork() {
         return network;
+    }
+
+    @Override
+    public void setBeaconNetwork(@Nullable UUID networkUUID) {
     }
 }

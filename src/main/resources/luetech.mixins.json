@@ -11,13 +11,15 @@
     "gtceu.KJSRecipeAccessor",
     "gtceu.KJSRecipeFixMixin",
     "gtceu.LangHandlerInvoker",
+    "gtceu.MetaMachineMixin",
+    "gtceu.PowerSubstationMachineMixin",
     "gtceu.ToolHelperMixin",
     "jdt.PoweredMachineBEMixin",
     "neoforge.BuildCreativeModeTabContentsEventMixin"
   ],
   "client": [
-    "client.gtceu.MaterialPipeBlockItemMixin",
     "client.gtceu.JadeMaintenanceBlockProviderMixin",
+    "client.gtceu.MaterialPipeBlockItemMixin",
     "client.jdt.GooBlockRenderBaseMixin",
     "client.jdt.JEIGooSpreadRecipeCategoryMixin",
     "client.jdt.JEIGooSpreadRecipeTagCategoryMixin",
@@ -25,5 +27,8 @@
   ],
   "injectors": {
     "defaultRequire": 1
+  },
+  "mixinextras": {
+    "minVersion": "0.5.0"
   }
 }

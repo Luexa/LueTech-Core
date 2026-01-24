@@ -1,4 +1,4 @@
-package sh.lue.luetech.data.recipe;
+package sh.lue.luetech.data.dynamic.recipe;
 
 import com.gregtechceu.gtceu.data.tag.CustomTags;
 import net.minecraft.data.recipes.RecipeOutput;

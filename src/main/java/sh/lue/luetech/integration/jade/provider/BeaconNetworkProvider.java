@@ -2,6 +2,7 @@ package sh.lue.luetech.integration.jade.provider;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -37,8 +38,9 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
     @Override
     public void appendServerData(CompoundTag tag, BlockAccessor accessor) {
         MetaMachineBlockEntity machineBlockEntity = (MetaMachineBlockEntity) accessor.getBlockEntity();
-        if (machineBlockEntity.getMetaMachine() instanceof IBeaconConnected machine) {
-            var network = machine.getConnectedBeaconNetwork();
+        MetaMachine machine = machineBlockEntity.getMetaMachine();
+        if (machine instanceof IBeaconConnected beaconConnected && beaconConnected.isBeaconConnected()) {
+            var network = beaconConnected.getConnectedBeaconNetwork();
             if (network != null) {
                 if (network.getActive()) {
                     var storedPower = network.getStoredPower();

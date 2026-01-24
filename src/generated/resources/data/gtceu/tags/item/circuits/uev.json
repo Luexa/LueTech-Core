@@ -13,7 +13,7 @@
             "required": false
         },
         {
-            "id": "luetech:planetary_processor",
+            "id": "luetech:hyperfolded_processor",
             "required": false
         },
         {

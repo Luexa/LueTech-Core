@@ -15,7 +15,7 @@ public class MiscLang {
         // Jade Translations
         provider.add("luetech.jade.beacon_network", "Network Power");
         provider.add("luetech.jade.beacon_inactive", "Network Inactive");
-        provider.add("luetech.jade.beacon_not_found", "No Connected Network");
+        provider.add("luetech.jade.beacon_not_connected", "No Connected Network");
         provider.add("config.jade.plugin_luetech.beacon_network_info", "Beacon of Dominance Info");
 
         // Battery Pack & Wireless Charger
@@ -52,5 +52,17 @@ public class MiscLang {
                 "Energy Downloader for Multiblocks");
         provider.add("luetech.machine.eldritch_energy_hatch.downlink_multiamp.tooltip",
                 "Multiple Ampere Energy Downloader for Multiblocks");
+
+        // Eldritch Binder
+        provider.add("luetech.item.eldritch_binder.error_permission",
+                "You cannot modify this machine.");
+        provider.add("luetech.item.eldritch_binder.error_machine_type",
+                "Invalid target for Eldritch Binder.");
+        provider.add("luetech.item.eldritch_binder.error_no_network",
+                "You are not part of an Eldritch Network.");
+        provider.add("luetech.item.eldritch_binder.success",
+                "Machine successfully added to Eldritch Network.");
+        provider.add("luetech.item.eldritch_binder.success_unlinked",
+                "Machine successfully removed from Eldritch Network.");
     }
 }

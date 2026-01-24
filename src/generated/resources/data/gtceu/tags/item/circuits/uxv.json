@@ -5,7 +5,7 @@
             "required": false
         },
         {
-            "id": "luetech:planetary_processor_computer",
+            "id": "luetech:hyperfolded_processor_computer",
             "required": false
         },
         {

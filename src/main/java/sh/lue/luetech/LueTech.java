@@ -1,5 +1,6 @@
 package sh.lue.luetech;
 
+import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.material.material.event.PostMaterialEvent;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
@@ -18,15 +19,21 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import sh.lue.luetech.commands.BigIntegerArgumentType;
+import sh.lue.luetech.common.machine.BeaconSingleblockConnections;
+import sh.lue.luetech.common.machine.electric.ChargeTransmitterMachine;
 import sh.lue.luetech.common.saveddata.LTSavedData;
 import sh.lue.luetech.data.*;
 import sh.lue.luetech.data.curio.LTCuriosProvider;
 import sh.lue.luetech.integration.ftbteams.FTBTeamsIntegration;
+import sh.lue.luetech.utils.BigIntegerUtils;
+
+import java.math.BigInteger;
 
 @Mod(LueTech.MODID)
 @EventBusSubscriber(modid = LueTech.MODID)
@@ -106,6 +113,30 @@ public class LueTech {
         if (event.getLevel() instanceof ServerLevel serverLevel) {
             if (serverLevel.getServer().overworld() == serverLevel) {
                 savedData = null;
+            }
+        }
+    }
+
+    @SubscribeEvent
+    static void onPostServerTick(LevelTickEvent.Post event) {
+        if (event.getLevel() instanceof ServerLevel serverLevel && serverLevel.getServer().overworld() == serverLevel) {
+            for (var networkEntries : BeaconSingleblockConnections.NETWORK_CONNECTIONS.entrySet()) {
+                var networkUUID = networkEntries.getKey();
+                var network = savedData.dominanceBeacon.getNetwork(networkUUID);
+                if (network == null || !network.getActive()) continue;
+                for (var machine : networkEntries.getValue()) {
+                    if (machine instanceof TieredEnergyMachine energyMachine) {
+                        var networkPower = network.getStoredPower();
+                        long voltage = energyMachine.getMaxVoltage();
+                        long amps = BigIntegerUtils.saturatedValue(networkPower) / voltage;
+                        if (amps > 0) {
+                            long acceptedAmps = energyMachine.energyContainer.acceptEnergyFromNetwork(null, voltage, amps);
+                            if (acceptedAmps > 0) {
+                                network.setStoredPower(networkPower.subtract(BigInteger.valueOf(acceptedAmps * voltage)));
+                            }
+                        }
+                    }
+                }
             }
         }
     }

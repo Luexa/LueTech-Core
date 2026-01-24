@@ -46,17 +46,21 @@ public class ItemLang {
         multilineLang(provider, "item.luetech.temporal_processor_mainframe.tooltip",
                 "§7Can solve the Y2K Problem\n" + WHITE + "UXV-Tier Circuit");
 
-        /* T11: Planetary */
-        multiLang(provider, "item.luetech.planetary_processor.tooltip_special",
-                "§7Technically a dwarf planet", "UEV-Tier Circuit");
-        multiLang(provider, "item.luetech.planetary_processor_assembly.tooltip_special",
-                "§7Somehow fits in your inventory", "UIV-Tier Circuit");
-        multiLang(provider, "item.luetech.planetary_processor_computer.tooltip_special",
-                "§7Theoretically supports life", "UXV-Tier Circuit");
-        multiLang(provider, "item.luetech.planetary_processor_mainframe.tooltip_special",
-                "§7The Ultimate Question of Life, the Universe, and Everything", "OpV-Tier Circuit");
-        multiLang(provider, "item.luetech.planetary_processor_singularity.tooltip_special",
-                "§7The Ultimate Answer to Life, the Universe, and Everything", "MAX-Tier Circuit");
+        /* T11: Hyperfolded */
+        multiLang(provider, "item.luetech.hyperfolded_processor.tooltip_special",
+                "§7Concepts folded endlessly", "UEV-Tier Circuit");
+        multiLang(provider, "item.luetech.hyperfolded_processor_assembly.tooltip_special",
+                "§7Concepts folded endlessly", "UIV-Tier Circuit");
+        multiLang(provider, "item.luetech.hyperfolded_processor_computer.tooltip_special",
+                "§7Concepts folded endlessly", "UXV-Tier Circuit");
+        multiLang(provider, "item.luetech.hyperfolded_processor_mainframe.tooltip_special",
+                "§7Concepts folded endlessly", "OpV-Tier Circuit");
+
+        /* T12: L.U.E. */
+        multiLang(provider, "item.luetech.lue_processor.tooltip_special",
+                "§7The Ultimate Question of Life, the Universe, and Everything", "MAX-Tier Circuit");
+        multiLang(provider, "item.luetech.lue_processor_singularity.tooltip_special",
+                "§7The Ultimate Answer to Life, the Universe, and Everything", "%s-Tier Circuit", "LUE");
 
         /* Universal Circuits */
         multilineLang(provider, "item.luetech.universal_ulv_circuit.tooltip",

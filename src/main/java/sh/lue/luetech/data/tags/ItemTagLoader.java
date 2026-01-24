@@ -27,18 +27,18 @@ public class ItemTagLoader {
                 .addOptional(LTItems.SPECTRAL_PROCESSOR_MAINFRAME_UEV.getId())
                 .addOptional(LTItems.ELEMENTAL_PROCESSOR_SUPERCOMPUTER_UEV.getId())
                 .addOptional(LTItems.TEMPORAL_PROCESSOR_ASSEMBLY_UEV.getId())
-                .addOptional(LTItems.PLANETARY_PROCESSOR_UEV.getId());
+                .addOptional(LTItems.HYPERFOLDED_PROCESSOR_UEV.getId());
         provider.addTag(CustomTags.UIV_CIRCUITS)
                 .addOptional(LTItems.ELEMENTAL_PROCESSOR_MAINFRAME_UIV.getId())
                 .addOptional(LTItems.TEMPORAL_PROCESSOR_SUPERCOMPUTER_UIV.getId())
-                .addOptional(LTItems.PLANETARY_PROCESSOR_ASSEMBLY_UIV.getId());
+                .addOptional(LTItems.HYPERFOLDED_PROCESSOR_ASSEMBLY_UIV.getId());
         provider.addTag(CustomTags.UXV_CIRCUITS)
                 .addOptional(LTItems.TEMPORAL_PROCESSOR_MAINFRAME_UXV.getId())
-                .addOptional(LTItems.PLANETARY_PROCESSOR_SUPERCOMPUTER_UXV.getId());
+                .addOptional(LTItems.HYPERFOLDED_PROCESSOR_SUPERCOMPUTER_UXV.getId());
         provider.addTag(CustomTags.OpV_CIRCUITS)
-                .addOptional(LTItems.PLANETARY_PROCESSOR_MAINFRAME_OpV.getId());
+                .addOptional(LTItems.HYPERFOLDED_PROCESSOR_MAINFRAME_OpV.getId());
         provider.addTag(CustomTags.MAX_CIRCUITS)
-                .addOptional(LTItems.PLANETARY_PROCESSOR_SINGULARITY_MAX.getId());
+                .addOptional(LTItems.LUE_PROCESSOR_MAX.getId());
 
         var universalCircuitAppender = provider.addTag(LTTags.UNIVERSAL_CIRCUITS);
         for (int tier : ALL_TIERS) {

@@ -23,8 +23,10 @@ Any assets purely original to LueTech are LGPL-3.0 unless otherwise specified.
   * Universal Circuits UXV-MAX textures derived from UHV by Flare
 - [GTCEu Modern](https://github.com/GregTechCEu/GregTech-Modern): LGPL-3.0
   * Much of the code is derived from GTM, especially when it comes to item/block/etc. registration
+- [GT Refreshed](https://github.com/ULSTICK/GregTechRefreshed): MIT
+  * Anything derived from GT textures, including placeholders for our custom circuits
 - [Just Dire Things](https://github.com/Direwolf20-MC/JustDireThings): MIT
-  * Timewind Goo's texture is a recolor of VoidShimmer Goo.
-  * Raw Elementium Ore is a recolor of Raw Celestigem Ore and uses the same model file.
+  * Timewind Goo's texture is a recolor of VoidShimmer Goo
+  * Raw Elementium Ore is a recolor of Raw Celestigem Ore and uses the same model file
 - [PhoenixCore](https://github.com/Phoenixvine32908/PhoenixCore): LGPL-3.0
-  * Eldritch Energy Hatch textures and implementation derived from Tesla Hatch.
+  * Eldritch Energy Hatch textures and implementation derived from Tesla Hatch

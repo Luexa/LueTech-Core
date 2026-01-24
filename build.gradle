@@ -210,7 +210,7 @@ dependencies {
     compileOnly("org.appliedenergistics:appliedenergistics2:${ae2_version}") { transitive = false }
     compileOnly("curse.maven:ex-pattern-provider-892005:${extendedae_curse}") { transitive = false }
     compileOnly("curse.maven:advancedae-1084104:${advancedae_curse}") { transitive = false }
-    compileOnly("dev.latvian.mods:kubejs-neoforge:2101.7.1-build.181")
+    compileOnly("dev.latvian.mods:kubejs-neoforge:${kubejs_version}")
     compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}") { transitive = false }
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}") { transitive = false }
     compileOnly("maven.modrinth:jade:${jade_version}") { transitive = false }
@@ -228,7 +228,7 @@ dependencies {
     localRuntime "curse.maven:ex-pattern-provider-892005:${extendedae_curse}"
     localRuntime "curse.maven:advancedae-1084104:${advancedae_curse}"
     localRuntime "curse.maven:expanded-ae-1213351:${expandedae_curse}"
-    localRuntime "dev.latvian.mods:kubejs-neoforge:2101.7.1-build.181"
+    localRuntime "dev.latvian.mods:kubejs-neoforge:${kubejs_version}"
     localRuntime("com.klikli_dev:occultism-${minecraft_version}-neoforge:${occultism_version}") { transitive = false }
     localRuntime("net.tslat.smartbrainlib:SmartBrainLib-neoforge-1.21:${smartbrainlib_version}") { transitive = false }
     localRuntime("com.klikli_dev:modonomicon-${minecraft_version}-neoforge:${modonomicon_version}") { transitive = false }
@@ -261,6 +261,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
             ponder_version         : ponder_version,
             ftbteams_version       : ftbteams_version,
             jade_version           : jade_version,
+            kubejs_version         : kubejs_version,
     ]
     inputs.properties replaceProperties
     expand replaceProperties
