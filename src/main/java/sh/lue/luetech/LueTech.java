@@ -1,5 +1,7 @@
 package sh.lue.luetech;
 
+import com.direwolf20.justdirethings.common.blockentities.basebe.PoweredMachineBE;
+import com.gregtechceu.gtceu.api.capability.compat.FeCompat;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.material.material.event.PostMaterialEvent;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
@@ -14,6 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.CrashReportCallables;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
@@ -26,7 +29,6 @@ import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import sh.lue.luetech.commands.BigIntegerArgumentType;
 import sh.lue.luetech.common.machine.BeaconSingleblockConnections;
-import sh.lue.luetech.common.machine.electric.ChargeTransmitterMachine;
 import sh.lue.luetech.common.saveddata.LTSavedData;
 import sh.lue.luetech.data.*;
 import sh.lue.luetech.data.curio.LTCuriosProvider;
@@ -58,12 +60,15 @@ public class LueTech {
         LTDatagen.init();
 
         LTDataComponents.DATA_COMPONENTS.register(modEventBus);
+        LTAttachments.ATTACHMENT_TYPES.register(modEventBus);
         LTBlocks.init();
         LTItems.init();
 
         if (LTCompat.FTBTEAMS_LOADED) {
             FTBTeamsIntegration.init();
         }
+
+        CrashReportCallables.registerHeader(() -> "NOTICE: Instance contains LueTech, which extensively mixins certain mods!");
     }
 
     @SubscribeEvent
@@ -128,12 +133,21 @@ public class LueTech {
                     if (machine instanceof TieredEnergyMachine energyMachine) {
                         var networkPower = network.getStoredPower();
                         long voltage = energyMachine.getMaxVoltage();
-                        long amps = BigIntegerUtils.saturatedValue(networkPower) / voltage;
+                        long amps = BigIntegerUtils.saturatedLong(networkPower) / voltage;
                         if (amps > 0) {
                             long acceptedAmps = energyMachine.energyContainer.acceptEnergyFromNetwork(null, voltage, amps);
                             if (acceptedAmps > 0) {
                                 network.setStoredPower(networkPower.subtract(BigInteger.valueOf(acceptedAmps * voltage)));
                             }
+                        }
+                    } else if (machine instanceof PoweredMachineBE poweredMachine) {
+                        int ratio = FeCompat.ratio(false);
+                        var networkPower = network.getStoredPower();
+                        long availableEU = BigIntegerUtils.saturatedInt(networkPower);
+                        int availableFE = (int)Math.min(Integer.MAX_VALUE, availableEU * ratio);
+                        int acceptedFE = poweredMachine.insertEnergy(availableFE, false);
+                        if (acceptedFE > 0) {
+                            network.setStoredPower(networkPower.subtract(BigInteger.valueOf(Math.ceilDiv(acceptedFE, ratio))));
                         }
                     }
                 }

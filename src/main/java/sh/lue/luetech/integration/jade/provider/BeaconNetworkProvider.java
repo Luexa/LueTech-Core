@@ -10,6 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import sh.lue.luetech.LueTech;
 import sh.lue.luetech.common.machine.IBeaconConnected;
 import snownee.jade.api.BlockAccessor;
@@ -37,22 +38,29 @@ public enum BeaconNetworkProvider implements IBlockComponentProvider, IServerDat
 
     @Override
     public void appendServerData(CompoundTag tag, BlockAccessor accessor) {
-        MetaMachineBlockEntity machineBlockEntity = (MetaMachineBlockEntity) accessor.getBlockEntity();
-        MetaMachine machine = machineBlockEntity.getMetaMachine();
-        if (machine instanceof IBeaconConnected beaconConnected && beaconConnected.isBeaconConnected()) {
-            var network = beaconConnected.getConnectedBeaconNetwork();
-            if (network != null) {
-                if (network.getActive()) {
-                    var storedPower = network.getStoredPower();
-                    var maxPower = network.getMaxPower();
-                    tag.putByteArray(STORED_POWER, storedPower.toByteArray());
-                    tag.putByteArray(MAX_POWER, maxPower.toByteArray());
-                } else {
-                    tag.putByte(INACTIVE, (byte) 0);
-                }
-            } else {
-                tag.putByte(INACTIVE, (byte) 1);
+        BlockEntity blockEntity = accessor.getBlockEntity();
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity) {
+            if (machineBlockEntity.getMetaMachine() instanceof IBeaconConnected beaconConnected && beaconConnected.isBeaconConnected()) {
+                appendBeaconConnectedData(tag, beaconConnected);
             }
+        } else if (blockEntity instanceof IBeaconConnected beaconConnected && beaconConnected.isBeaconConnected()) {
+            appendBeaconConnectedData(tag, beaconConnected);
+        }
+    }
+
+    private void appendBeaconConnectedData(CompoundTag tag, IBeaconConnected beaconConnected) {
+        var network = beaconConnected.getConnectedBeaconNetwork();
+        if (network != null) {
+            if (network.getActive()) {
+                var storedPower = network.getStoredPower();
+                var maxPower = network.getMaxPower();
+                tag.putByteArray(STORED_POWER, storedPower.toByteArray());
+                tag.putByteArray(MAX_POWER, maxPower.toByteArray());
+            } else {
+                tag.putByte(INACTIVE, (byte) 0);
+            }
+        } else {
+            tag.putByte(INACTIVE, (byte) 1);
         }
     }
 

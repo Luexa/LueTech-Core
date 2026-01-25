@@ -39,7 +39,7 @@ public abstract class MetaMachineMixin {
     }
 
     public void beacon$setBeaconNetwork(@Nullable UUID networkUUID) {
-        MetaMachine machine = (MetaMachine)(Object)this;
+        var machine = (IBeaconConnected)this;
         luetech$beaconNetworkUUID = networkUUID;
         if (networkUUID != null) {
             BeaconSingleblockConnections.register(machine, networkUUID);
@@ -52,7 +52,7 @@ public abstract class MetaMachineMixin {
     private void luetech$registerBeaconNetwork(CallbackInfo ci) {
         MetaMachine machine = (MetaMachine)(Object)this;
         if (luetech$beaconNetworkUUID != null && machine.getLevel() instanceof ServerLevel) {
-            BeaconSingleblockConnections.register(machine, luetech$beaconNetworkUUID);
+            BeaconSingleblockConnections.register((IBeaconConnected)machine, luetech$beaconNetworkUUID);
         }
     }
 
@@ -60,7 +60,7 @@ public abstract class MetaMachineMixin {
     private void luetech$deregisterBeaconNetwork(CallbackInfo ci) {
         MetaMachine machine = (MetaMachine)(Object)this;
         if (machine.getLevel() instanceof ServerLevel) {
-            BeaconSingleblockConnections.deregister(machine);
+            BeaconSingleblockConnections.deregister((IBeaconConnected)machine);
         }
     }
 
@@ -73,7 +73,6 @@ public abstract class MetaMachineMixin {
             } catch (Exception ignored) {
                 return;
             }
-            MetaMachine machine = (MetaMachine)(Object)this;
             luetech$beaconNetworkUUID = networkUUID;
         }
     }
@@ -81,7 +80,6 @@ public abstract class MetaMachineMixin {
     @Inject(method = "saveCustomPersistedData", at = @At("TAIL"))
     private void luetech$saveBeaconNetwork(@NotNull CompoundTag tag, boolean forDrop, CallbackInfo ci) {
         if (forDrop) return;
-        MetaMachine machine = (MetaMachine)(Object)this;
         if (luetech$beaconNetworkUUID != null) {
             tag.putIntArray("luetechBeaconNetwork", UUIDUtil.uuidToIntArray(luetech$beaconNetworkUUID));
         }

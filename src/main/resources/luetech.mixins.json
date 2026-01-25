@@ -13,12 +13,15 @@
     "gtceu.LangHandlerInvoker",
     "gtceu.MetaMachineMixin",
     "gtceu.PowerSubstationMachineMixin",
+    "gtceu.QuantumTankMachineMixin",
     "gtceu.ToolHelperMixin",
     "jdt.PoweredMachineBEMixin",
+    "jdt.PoweredMachineSubclassesMixin",
     "neoforge.BuildCreativeModeTabContentsEventMixin"
   ],
   "client": [
     "client.gtceu.JadeMaintenanceBlockProviderMixin",
+    "client.gtceu.MachineModelMixin",
     "client.gtceu.MaterialPipeBlockItemMixin",
     "client.jdt.GooBlockRenderBaseMixin",
     "client.jdt.JEIGooSpreadRecipeCategoryMixin",

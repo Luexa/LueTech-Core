@@ -157,15 +157,23 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
             shouldTick = getControllers().stream()
                     .noneMatch(c -> c instanceof DominanceBeaconMachine);
         }
-        if (network == null || !network.getActive() || !shouldTick) {
+        if (network == null || !network.getActive() || !shouldTick || !isWorkingEnabled()) {
             unsubscribeFromTick();
         } else if (tickSubscription == null) {
             tickSubscription = subscribeServerTick(this::tick);
         }
     }
 
+    @Override
+    public void setWorkingEnabled(boolean workingEnabled) {
+        super.setWorkingEnabled(workingEnabled);
+        if (getLevel() instanceof ServerLevel) {
+            updateTickSubscription();
+        }
+    }
+
     private void tick() {
-        if (network == null) {
+        if (network == null || !isWorkingEnabled()) {
             unsubscribeFromTick();
             return;
         }
@@ -176,7 +184,7 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
             long space = energyContainer.getEnergyCapacity() - energyContainer.getEnergyStored();
             long ampsToAccept = Math.min(space / voltage, amperage);
             if (ampsToAccept > 0) {
-                long networkPowerSaturated = BigIntegerUtils.saturatedValue(networkPower);
+                long networkPowerSaturated = BigIntegerUtils.saturatedLong(networkPower);
                 long ampsAvailable = Math.min(networkPowerSaturated / voltage, ampsToAccept);
                 long toDrain = voltage * ampsAvailable;
                 if (toDrain > 0) {
@@ -189,7 +197,7 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
             var maxNetworkPower = network.getMaxPower();
             if (stored > 0 && networkPower.compareTo(maxNetworkPower) < 0) {
                 long transferLimit = voltage * amperage;
-                long availableCapacity = BigIntegerUtils.saturatedValue(maxNetworkPower.subtract(networkPower));
+                long availableCapacity = BigIntegerUtils.saturatedLong(maxNetworkPower.subtract(networkPower));
                 long toPush = Math.min(Math.min(stored, transferLimit), availableCapacity);
                 if (toPush > 0) {
                     network.setStoredPower(networkPower.add(BigInteger.valueOf(toPush)));

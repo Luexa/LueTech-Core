@@ -17,7 +17,8 @@ public abstract class PowerSubstationMachineMixin extends WorkableMultiblockMach
     }
 
     @Definition(id = "getNumMaintenanceProblems", method = "Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMaintenanceMachine;getNumMaintenanceProblems()I")
-    @Expression("?.getNumMaintenanceProblems()")
+    @Definition(id = "maintenance", field = "Lcom/gregtechceu/gtceu/common/machine/multiblock/electric/PowerSubstationMachine;maintenance:Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMaintenanceMachine;")
+    @Expression("this.maintenance.getNumMaintenanceProblems()")
     @WrapOperation(method = "getPassiveDrain", at = @At("MIXINEXTRAS:EXPRESSION"))
     private int luetech$fixDrainMultiplier(IMaintenanceMachine instance, Operation<Integer> original) {
         if (instance == null) return 0;
@@ -25,7 +26,8 @@ public abstract class PowerSubstationMachineMixin extends WorkableMultiblockMach
     }
 
     @Definition(id = "getDurationMultiplier", method = "Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMaintenanceMachine;getDurationMultiplier()F")
-    @Expression("?.getDurationMultiplier()")
+    @Definition(id = "maintenance", field = "Lcom/gregtechceu/gtceu/common/machine/multiblock/electric/PowerSubstationMachine;maintenance:Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMaintenanceMachine;")
+    @Expression("this.maintenance.getDurationMultiplier()")
     @WrapOperation(method = "getPassiveDrain", at = @At("MIXINEXTRAS:EXPRESSION"))
     private float luetech$fixDurationModifier(IMaintenanceMachine instance, Operation<Float> original) {
         if (instance == null) return 1.0f;
