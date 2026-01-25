@@ -55,14 +55,14 @@ public abstract class PoweredMachineSubclassesMixin extends BlockEntity {
     @Inject(method = "getEnergyStorage", at = @At("HEAD"), cancellable = true)
     private void luetech$customEnergyStorage(CallbackInfoReturnable<MachineEnergyStorage> cir) {
         if (luetech$container == null) {
-            luetech$container = new JDTNativeEUContainer((BlockEntity)(Object)this);
+            luetech$container = new JDTNativeEUContainer(this);
         }
         cir.setReturnValue(luetech$container.getWrappedStorage());
     }
 
     public IEnergyContainer eureceiver$getEnergyContainer(@Nullable Direction side) {
         if (luetech$container == null) {
-            luetech$container = new JDTNativeEUContainer((BlockEntity)(Object)this);
+            luetech$container = new JDTNativeEUContainer(this);
         }
         return luetech$container;
     }
