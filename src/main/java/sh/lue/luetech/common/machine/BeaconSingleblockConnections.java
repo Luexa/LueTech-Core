@@ -23,10 +23,10 @@ public class BeaconSingleblockConnections {
     public static void deregister(@NotNull MetaMachine machine) {
         var networkUUID = SINGLEBLOCK_NETWORKS.remove(machine);
         if (networkUUID != null) {
-            var networkConnections = NETWORK_CONNECTIONS.get(networkUUID);
-            if (networkConnections != null) {
-                networkConnections.remove(machine);
-            }
+            NETWORK_CONNECTIONS.computeIfPresent(networkUUID, (k, v) -> {
+                v.remove(machine);
+                return v.isEmpty() ? null : v;
+            });
         }
     }
 }

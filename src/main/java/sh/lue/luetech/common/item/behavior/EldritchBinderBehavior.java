@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import sh.lue.luetech.LueTech;
 import sh.lue.luetech.common.machine.IBeaconConnected;
+import sh.lue.luetech.common.machine.multiblock.part.EldritchEnergyHatchPartMachine;
 import sh.lue.luetech.utils.TeamUtils;
 
 public class EldritchBinderBehavior implements IInteractionItem {
@@ -32,9 +33,9 @@ public class EldritchBinderBehavior implements IInteractionItem {
                 }
                 return InteractionResult.FAIL;
             }
-            if (!(machine instanceof TieredEnergyMachine) || (machine instanceof IMultiController ||
-                    machine instanceof IMultiPart || machine instanceof TransformerMachine ||
-                    machine instanceof SimpleGeneratorMachine)) {
+            if (!(machine instanceof EldritchEnergyHatchPartMachine) && (!(machine instanceof TieredEnergyMachine) ||
+                    (machine instanceof IMultiController || machine instanceof IMultiPart
+                            || machine instanceof TransformerMachine || machine instanceof SimpleGeneratorMachine))) {
                 if (!level.isClientSide) {
                     player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.error_machine_type")
                             .withStyle(ChatFormatting.RED), true);
@@ -43,7 +44,7 @@ public class EldritchBinderBehavior implements IInteractionItem {
             }
             if (level instanceof ServerLevel) {
                 var beaconConnected = (IBeaconConnected)machine;
-                if (beaconConnected.isBeaconConnected()) {
+                if (beaconConnected.getConnectedBeaconNetwork() != null) {
                     beaconConnected.setBeaconNetwork(null);
                     player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.success_unlinked")
                             .withStyle(ChatFormatting.GREEN), true);

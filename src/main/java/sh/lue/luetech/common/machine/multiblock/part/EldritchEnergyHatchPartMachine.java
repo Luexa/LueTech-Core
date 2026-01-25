@@ -221,5 +221,20 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
     }
 
     @Override
-    public void setBeaconNetwork(@Nullable UUID networkUUID) {}
+    public void setBeaconNetwork(@Nullable UUID networkUUID) {
+        if (this.networkUUID != null) {
+            network = null;
+            NETWORK_MEMBERS.computeIfPresent(this.networkUUID, (k, v) -> {
+                v.remove(this);
+                return v.isEmpty() ? null : v;
+            });
+        }
+        this.networkUUID = networkUUID;
+        if (networkUUID != null) {
+            network = LueTech.savedData.dominanceBeacon.getNetwork(networkUUID);
+            NETWORK_MEMBERS.computeIfAbsent(networkUUID, k -> new ObjectOpenHashSet<>())
+                    .add(this);
+        }
+        updateTickSubscription();
+    }
 }

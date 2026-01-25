@@ -67,6 +67,5 @@ public class LTBlocks {
             )
             .register();
 
-    public static void init() {
-    }
+    public static void init() {}
 }
