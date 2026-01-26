@@ -5,6 +5,7 @@
   "minVersion": "0.8",
   "plugin": "sh.lue.luetech.mixins.LTMixinPlugin",
   "mixins": [
+    "ae2.PowerStorageDataProviderMixin",
     "gtceu.GTCommonInitMixin",
     "gtceu.GTFluidsMixin",
     "gtceu.GTMaterialItemsMixin",
@@ -15,11 +16,13 @@
     "gtceu.PowerSubstationMachineMixin",
     "gtceu.QuantumTankMachineMixin",
     "gtceu.ToolHelperMixin",
+    "jade.EnergyStorageProviderExtensionMixin",
     "jdt.PoweredMachineBEMixin",
     "jdt.PoweredMachineSubclassesMixin",
     "neoforge.BuildCreativeModeTabContentsEventMixin"
   ],
   "client": [
+    "client.ae2.PlatformMixin",
     "client.gtceu.JadeMaintenanceBlockProviderMixin",
     "client.gtceu.MachineModelMixin",
     "client.gtceu.MaterialPipeBlockItemMixin",

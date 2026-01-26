@@ -137,6 +137,21 @@ base {
     archivesName = mod_id
 }
 
+afterEvaluate {
+    tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
+        destinationDirectory = file('build/libs/')
+        manifest.attributes([
+                'MixinConfigs': 'luetech.mixins.json',
+                'Specification-Title': project.name,
+                'Specification-Version': project.version,
+                'Specification-Vendor': 'Lue',
+                'Implementation-Title': base.archivesName,
+                'Implementation-Version': project.version,
+                'Implementation-Vendor': 'Lue',
+        ])
+    }
+}
+
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
