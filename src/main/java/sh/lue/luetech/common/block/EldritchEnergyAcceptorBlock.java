@@ -1,6 +1,7 @@
 package sh.lue.luetech.common.block;
 
 import appeng.block.AEBaseBlock;
+import appeng.block.AEBaseEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -17,15 +18,9 @@ import sh.lue.luetech.LueTech;
 import sh.lue.luetech.common.blockentity.EldritchEnergyAcceptorBlockEntity;
 import sh.lue.luetech.utils.TeamUtils;
 
-public class EldritchEnergyAcceptorBlock extends Block implements EntityBlock {
+public class EldritchEnergyAcceptorBlock extends AEBaseEntityBlock<EldritchEnergyAcceptorBlockEntity> {
     public EldritchEnergyAcceptorBlock() {
         super(AEBaseBlock.glassProps());
-    }
-
-    @Override
-    @Nullable
-    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return new EldritchEnergyAcceptorBlockEntity(pos, state);
     }
 
     @Override

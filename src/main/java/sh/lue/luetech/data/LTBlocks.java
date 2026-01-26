@@ -37,6 +37,8 @@ public class LTBlocks {
             .<EldritchEnergyAcceptorBlockEntity>blockEntity("eldritch_energy_acceptor",
                     (type, pos, state) -> new EldritchEnergyAcceptorBlockEntity(pos, state))
             .validBlock(ELDRITCH_ENERGY_ACCEPTOR)
+            .onRegister(type -> ELDRITCH_ENERGY_ACCEPTOR.get()
+                    .setBlockEntity(EldritchEnergyAcceptorBlockEntity.class, type, null, null))
             .register();
 
     public static final BlockEntry<TimewindGooBlock> TIMEWIND_GOO = REGISTRATE

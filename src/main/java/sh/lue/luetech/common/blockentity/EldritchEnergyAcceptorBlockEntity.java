@@ -35,6 +35,7 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
     private UUID networkUUID;
     private int excess;
     private static final BigInteger MULTIPLIER = BigInteger.valueOf(10000L);
+    private static final BigInteger MAX_SAFE_POWER = BigInteger.valueOf((long)StoredEnergyAmount.MAX_MAXIMUM);
 
     public EldritchEnergyAcceptorBlockEntity(BlockPos pos, BlockState state) {
         super(LTBlocks.ELDRITCH_ENERGY_ACCEPTOR_ENTITY.get(), pos, state);
@@ -74,7 +75,7 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
     public double getAECurrentPower() {
         var network = getConnectedBeaconNetwork();
         if (network == null) return 0;
-        return Math.min(StoredEnergyAmount.MAX_MAXIMUM, network.getStoredPower().doubleValue() * LTCompat.aePerEu());
+        return Math.min(StoredEnergyAmount.MAX_MAXIMUM, network.getStoredPower().min(MAX_SAFE_POWER).doubleValue() * LTCompat.aePerEu());
     }
 
     @Override
@@ -90,14 +91,21 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
         }
         var networkPowerMultiplied = network.getStoredPower().multiply(MULTIPLIER).add(BigInteger.valueOf(excess));
         var euToExtractMultiplied = BigInteger.valueOf((long)(amt / LTCompat.aePerEu() * 10000));
-        var extractedMultiplied = networkPowerMultiplied.min(euToExtractMultiplied);
-        networkPowerMultiplied = networkPowerMultiplied.subtract(extractedMultiplied);
+        boolean canExtractFullAmount = false;
+        var extractedMultiplied = networkPowerMultiplied;
+        if (networkPowerMultiplied.compareTo(euToExtractMultiplied) >= 0) {
+            canExtractFullAmount = true;
+            extractedMultiplied = euToExtractMultiplied;
+            networkPowerMultiplied = networkPowerMultiplied.subtract(extractedMultiplied);
+        } else {
+            networkPowerMultiplied = BigInteger.ZERO;
+        }
         var quotientAndRemainder = networkPowerMultiplied.divideAndRemainder(MULTIPLIER);
         if (!mode.isSimulate()) {
             network.setStoredPower(quotientAndRemainder[0]);
             excess = quotientAndRemainder[1].intValue();
         }
-        return extractedMultiplied.doubleValue() / 10000 * LTCompat.aePerEu();
+        return canExtractFullAmount ? amt : extractedMultiplied.doubleValue() / 10000 * LTCompat.aePerEu();
     }
 
     @Override
