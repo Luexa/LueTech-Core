@@ -22,6 +22,7 @@ import sh.lue.luetech.common.machine.IBeaconConnected;
 import sh.lue.luetech.common.machine.multiblock.electric.DominanceBeaconMachine;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 import sh.lue.luetech.utils.BigIntegerUtils;
+import sh.lue.luetech.utils.TeamUtils;
 
 import java.math.BigInteger;
 import java.util.Map;
@@ -76,7 +77,12 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
             if (autoDiscover && networkUUID == null) {
                 var playerUUID = getOwnerUUID();
                 if (playerUUID != null) {
-                    network = LueTech.savedData.dominanceBeacon.getNetworkForPlayer(playerUUID);
+                    var teamUUID = TeamUtils.getInstance().getTeamUUID(playerUUID);
+                    if (teamUUID != null) {
+                        network = LueTech.savedData.dominanceBeacon.getNetworkForTeam(teamUUID);
+                    } else {
+                        network = LueTech.savedData.dominanceBeacon.getNetworkForPlayer(playerUUID);
+                    }
                     if (network != null) {
                         networkUUID = network.getUUID();
                     }

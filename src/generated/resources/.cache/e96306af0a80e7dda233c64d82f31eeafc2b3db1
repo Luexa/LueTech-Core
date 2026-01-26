@@ -1,5 +1,6 @@
-// 1.21.1	2026-01-24T12:33:19.769628981	Registrate Provider for luetech [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
+// 1.21.1	2026-01-25T15:30:46.234208149	Registrate Provider for luetech [Registries, Data Maps, Recipes, Advancements, Loot Tables, Tags (blocks), Tags (enchantments), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider]
 af0eb0b88acb0684dd197cc805e508bdd9d4a77d assets/luetech/blockstates/beacon_of_dominance.json
+28860844d2c2ebcf3d4ae0f067e9624af4dbb5f7 assets/luetech/blockstates/eldritch_energy_acceptor.json
 309c1f0e6c53c330c4df5a9aa0a27aef33367102 assets/luetech/blockstates/ev_atomic_rewriter.json
 4d8c1cba57c06bd8c2bca50865bc2597533590d2 assets/luetech/blockstates/ev_eldritch_energy_downlink_hatch.json
 981ae386901a8774de54143aff6c951459ac0a73 assets/luetech/blockstates/ev_eldritch_energy_uplink_hatch.json
@@ -90,8 +91,9 @@ fec2815e4f54e9f01b801c13ebdf385aa47637b6 assets/luetech/blockstates/zpm_eldritch
 07219c4224bcd81a7a2ed1d46ad8d19fa5d01deb assets/luetech/blockstates/zpm_eldritch_energy_uplink_hatch.json
 3a4a7764db4cf92696daf507607963cf66cf5d1e assets/luetech/blockstates/zpm_eldritch_energy_uplink_hatch_16a.json
 37ebc93dbb6541822174511944cee5788f0c2596 assets/luetech/blockstates/zpm_eldritch_energy_uplink_hatch_4a.json
-7319a6faa952e43757addd027279432bfb17bac8 assets/luetech/lang/en_ud.json
-464bdaca56c7cc57a8f091a6dcaaa59536ac059a assets/luetech/lang/en_us.json
+75e5533fc9789286bcfcdbde60b046c2cdc06357 assets/luetech/lang/en_ud.json
+8bf4d4d0fb46aaf32cd8c4223ee70626d1dde7c4 assets/luetech/lang/en_us.json
+39918b8c900e589fe8355dc54fd89ab9b50c40bc assets/luetech/models/block/eldritch_energy_acceptor.json
 521addd53c0817cdd93f31ce8f53f48111b5a971 assets/luetech/models/block/machine/beacon_of_dominance.json
 4e277c75978cf5e2da4f118afc64263fc5022c1b assets/luetech/models/block/machine/ev_atomic_rewriter.json
 751355a44d04abf998c7a47a7e03adf3f2e34532 assets/luetech/models/block/machine/ev_eldritch_energy_downlink_hatch.json
@@ -188,6 +190,7 @@ ceec9f9f30d2616244a00aca2a1340ad7f8c9d2f assets/luetech/models/block/machine/zpm
 1473579c6a38dc0afaa220c653bea6e506b95ec1 assets/luetech/models/item/beacon_of_dominance.json
 b3c2b598a904d4a4660a1b755f89b3f323640c8b assets/luetech/models/item/charging_lens.json
 b9ff110e1b1eaa6d5e3b27357b1d9095f7f235b6 assets/luetech/models/item/eldritch_binder.json
+8ac9beed7333706f63fb88a9b53776d4e72b36af assets/luetech/models/item/eldritch_energy_acceptor.json
 b53ccff8c3d8c226834d1554786433fadb81d4a0 assets/luetech/models/item/elemental_processor.json
 acb4790cc264be0bfbe5aae9297f86d06dcc2ea7 assets/luetech/models/item/elemental_processor_assembly.json
 63c3e11f107587bf8538949e192621394ca1a397 assets/luetech/models/item/elemental_processor_computer.json
@@ -331,6 +334,7 @@ ff4e4af97949198a895571d401ca647ae0aa9c15 data/gtceu/tags/item/circuits/uiv.json
 531de553382242bb89f508583d51c3f2ea53162c data/gtceu/tags/item/circuits/uv.json
 d8bfc15877045a4127fa749cd042e4e15b4718b3 data/gtceu/tags/item/circuits/uxv.json
 70c6e374223ee09f8e6b0fd00bb36de4d08f5afc data/gtceu/tags/item/circuits/zpm.json
+7a3f2b4953df80a2a0148356b0b761eab20893e1 data/luetech/loot_table/blocks/eldritch_energy_acceptor.json
 38a3794d568c49459120193446f2d49ea52f4c0f data/luetech/loot_table/blocks/elementium_ore.json
 f22b9f69f4a70f87c4f98d30df429f3d7dfc07ab data/luetech/loot_table/blocks/timewind_goo.json
 d3afc1ed6ca227811c77a21930da0c0332726f33 data/luetech/recipe/goospread/iesnium_to_elementium.json

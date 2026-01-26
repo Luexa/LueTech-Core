@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+        "all": "luetech:block/eldritch_energy_acceptor"
+    }
+}

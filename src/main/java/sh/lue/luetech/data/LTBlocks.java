@@ -1,5 +1,6 @@
 package sh.lue.luetech.data;
 
+import appeng.api.AECapabilities;
 import com.direwolf20.justdirethings.common.blocks.gooblocks.GooBlock_Base;
 import com.direwolf20.justdirethings.common.blocks.gooblocks.GooBlock_Item;
 import com.gregtechceu.gtceu.api.material.ChemicalHelper;
@@ -11,10 +12,13 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import sh.lue.luetech.client.blockentityrender.TimewindGooRender;
+import sh.lue.luetech.common.block.EldritchEnergyAcceptorBlock;
 import sh.lue.luetech.common.block.ElementiumOreBlock;
 import sh.lue.luetech.common.block.TimewindGooBlock;
+import sh.lue.luetech.common.blockentity.EldritchEnergyAcceptorBlockEntity;
 import sh.lue.luetech.common.blockentity.TimewindGooBlockEntity;
 
 import static sh.lue.luetech.common.registry.LTRegistration.REGISTRATE;
@@ -24,7 +28,19 @@ public class LTBlocks {
     static {
         REGISTRATE.creativeModeTab(LTCreativeModeTabs.DECORATION);
     }
-    public static final BlockEntry<TimewindGooBlock> TIMEWIND_GOO = REGISTRATE.block("timewind_goo", properties -> new TimewindGooBlock())
+
+    public static final BlockEntry<EldritchEnergyAcceptorBlock> ELDRITCH_ENERGY_ACCEPTOR = REGISTRATE
+            .block("eldritch_energy_acceptor", p -> new EldritchEnergyAcceptorBlock())
+            .simpleItem()
+            .register();
+    public static final BlockEntityEntry<EldritchEnergyAcceptorBlockEntity> ELDRITCH_ENERGY_ACCEPTOR_ENTITY = REGISTRATE
+            .<EldritchEnergyAcceptorBlockEntity>blockEntity("eldritch_energy_acceptor",
+                    (type, pos, state) -> new EldritchEnergyAcceptorBlockEntity(pos, state))
+            .validBlock(ELDRITCH_ENERGY_ACCEPTOR)
+            .register();
+
+    public static final BlockEntry<TimewindGooBlock> TIMEWIND_GOO = REGISTRATE
+            .block("timewind_goo", properties -> new TimewindGooBlock())
             .blockstate((ctx, prov) -> {
                 final String baseTexturePath = ctx.getId().getPath();
                 prov.getVariantBuilder(ctx.getEntry()).forAllStates(blockState -> {
@@ -43,7 +59,8 @@ public class LTBlocks {
             })
             .build()
             .register();
-    public static final BlockEntityEntry<TimewindGooBlockEntity> TIMEWIND_GOO_ENTITY = REGISTRATE.<TimewindGooBlockEntity>blockEntity("timewind_goo", (type, pos, state) -> new TimewindGooBlockEntity(pos, state))
+    public static final BlockEntityEntry<TimewindGooBlockEntity> TIMEWIND_GOO_ENTITY = REGISTRATE
+            .<TimewindGooBlockEntity>blockEntity("timewind_goo", (type, pos, state) -> new TimewindGooBlockEntity(pos, state))
             .validBlock(TIMEWIND_GOO)
             .renderer(() -> TimewindGooRender::new)
             .register();
@@ -51,6 +68,7 @@ public class LTBlocks {
     static {
         REGISTRATE.creativeModeTab(LTCreativeModeTabs.MATERIAL_BLOCK);
     }
+
     public static final BlockEntry<ElementiumOreBlock> ELEMENTIUM_ORE = REGISTRATE.block("elementium_ore", properties -> new ElementiumOreBlock())
             .lang("Raw Elementium Ore")
             .blockstate(NonNullBiConsumer.noop())
@@ -68,4 +86,9 @@ public class LTBlocks {
             .register();
 
     public static void init() {}
+
+    public static void attachCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(AECapabilities.IN_WORLD_GRID_NODE_HOST,
+                ELDRITCH_ENERGY_ACCEPTOR_ENTITY.get(), (be, ctx) -> be);
+    }
 }

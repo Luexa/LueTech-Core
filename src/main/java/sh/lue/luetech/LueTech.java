@@ -20,6 +20,7 @@ import net.neoforged.fml.CrashReportCallables;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
@@ -120,6 +121,11 @@ public class LueTech {
                 savedData = null;
             }
         }
+    }
+
+    @SubscribeEvent
+    static void attachCapabilities(RegisterCapabilitiesEvent event) {
+        LTBlocks.attachCapabilities(event);
     }
 
     @SubscribeEvent
