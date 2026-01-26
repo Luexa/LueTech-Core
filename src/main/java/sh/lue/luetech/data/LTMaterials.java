@@ -40,6 +40,12 @@ public class LTMaterials {
     };
 
     /* Element Materials */
+    public static final Material Iesnium = new Material.Builder(LueTech.id("iesnium"))
+            .ingot().ore()
+            .element(LTElements.Ie)
+            .color(0x87c2d8).iconSet(BRIGHT)
+            .buildAndRegister();
+
     public static final Material Elementium = new Material.Builder(LueTech.id("elementium"))
             .ingot().liquid(new FluidBuilder().temperature(1811)).ore()
             .element(LTElements.E)
@@ -124,7 +130,7 @@ public class LTMaterials {
             .color(0x3ed19b).iconSet(CERTUS)
             .flags(DISABLE_DECOMPOSITION)
             .buildAndRegister()
-            .setFormula("(SiO2)3(BeK4N5)(Si(FeS2)5(CrAl2O3)Hg3)3Au?");
+            .setFormula("");
     static {
         TagPrefix.block.modifyMaterialAmount(Entro, 4);
     }
@@ -134,12 +140,8 @@ public class LTMaterials {
             .components(Entro, 1, Gold, 1, Lapis, 1)
             .color(0x3d19b).iconSet(BRIGHT)
             .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-
-    public static final Material Iesnium = new Material.Builder(LueTech.id("iesnium"))
-            .ingot().ore()
-            .color(0x87c2d8).iconSet(BRIGHT)
-            .buildAndRegister();
+            .buildAndRegister()
+            .setFormula("");
 
     public static final Material Ferricore = new Material.Builder(LueTech.id("ferricore"))
             .ingot().ore()

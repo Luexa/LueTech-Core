@@ -20,11 +20,11 @@ public class LTFormatting {
         if (translationKey.startsWith(ITEM_PREFIX) || translationKey.startsWith(BLOCK_PREFIX)) {
             String tooltipKey = translationKey + ".tooltip";
             if (I18n.exists(tooltipKey)) {
-                tooltips.add(1, Component.translatable(tooltipKey));
+                tooltips.add(tooltips.isEmpty() ? 0 : 1, Component.translatable(tooltipKey));
             } else {
                 List<MutableComponent> multiLang = getMultiLang(tooltipKey);
                 if (multiLang != null && !multiLang.isEmpty()) {
-                    tooltips.addAll(1, multiLang);
+                    tooltips.addAll(tooltips.isEmpty() ? 0 : 1, multiLang);
                 }
             }
         }
