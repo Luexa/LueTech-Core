@@ -14,13 +14,13 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(value = QuantumTankMachine.class, remap = false)
 public class QuantumTankMachineMixin {
-    @Definition(id = "stored", field = "Lcom/gregtechceu/gtceu/common/machine/storage/QuantumTankMachine;stored:Lnet/neoforged/neoforge/fluids/FluidStack;")
-    @Definition(id = "save", method = "Lnet/neoforged/neoforge/fluids/FluidStack;save(Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/nbt/Tag;")
-    @Definition(id = "getCurrentBERegistries", method = "Lcom/gregtechceu/gtceu/core/MixinHelpers;getCurrentBERegistries()Lnet/minecraft/core/HolderLookup$Provider;")
-    @Expression("this.stored.save(getCurrentBERegistries())")
-    @WrapOperation(method = "saveCustomPersistedData", at = @At("MIXINEXTRAS:EXPRESSION"))
-    private Tag luetech$fixEmptyStack(FluidStack stored, HolderLookup.Provider registries,
-                                      Operation<Tag> operation) {
-        return stored.isEmpty() ? new CompoundTag() : operation.call(stored, registries);
-    }
+//    @Definition(id = "stored", field = "Lcom/gregtechceu/gtceu/common/machine/storage/QuantumTankMachine;stored:Lnet/neoforged/neoforge/fluids/FluidStack;")
+//    @Definition(id = "save", method = "Lnet/neoforged/neoforge/fluids/FluidStack;save(Lnet/minecraft/core/HolderLookup$Provider;)Lnet/minecraft/nbt/Tag;")
+//    @Definition(id = "getCurrentBERegistries", method = "Lcom/gregtechceu/gtceu/core/MixinHelpers;getCurrentBERegistries()Lnet/minecraft/core/HolderLookup$Provider;")
+//    @Expression("this.stored.save(getCurrentBERegistries())")
+//    @WrapOperation(method = "saveCustomPersistedData", at = @At("MIXINEXTRAS:EXPRESSION"))
+//    private Tag luetech$fixEmptyStack(FluidStack stored, HolderLookup.Provider registries,
+//                                      Operation<Tag> operation) {
+//        return stored.isEmpty() ? new CompoundTag() : operation.call(stored, registries);
+//    }
 }

@@ -12,13 +12,13 @@ import static sh.lue.luetech.mixins.gtceu.KJSRecipeAccessor.*;
 
 @Mixin(value = GTRecipeSchema.GTKubeRecipe.class, remap = false)
 public abstract class KJSRecipeFixMixin extends KubeRecipe {
-    @ModifyVariable(
-            method = "output(Lcom/gregtechceu/gtceu/api/capability/recipe/RecipeCapability;[Ljava/lang/Object;)Lcom/gregtechceu/gtceu/integration/kjs/recipe/GTRecipeSchema$GTKubeRecipe;",
-            at = @At("STORE"),
-            ordinal = 0
-    )
-    private RecipeKey<CapabilityMap> luetech$replaceKey(RecipeKey<CapabilityMap> key) {
-        if (key == luetech$getAllInputs()) return luetech$getAllOutputs();
-        return luetech$getAllTickOutputs();
-    }
+//    @ModifyVariable(
+//            method = "output(Lcom/gregtechceu/gtceu/api/capability/recipe/RecipeCapability;[Ljava/lang/Object;)Lcom/gregtechceu/gtceu/integration/kjs/recipe/GTRecipeSchema$GTKubeRecipe;",
+//            at = @At("STORE"),
+//            ordinal = 0
+//    )
+//    private RecipeKey<CapabilityMap> luetech$replaceKey(RecipeKey<CapabilityMap> key) {
+//        if (key == luetech$getAllInputs()) return luetech$getAllOutputs();
+//        return luetech$getAllTickOutputs();
+//    }
 }

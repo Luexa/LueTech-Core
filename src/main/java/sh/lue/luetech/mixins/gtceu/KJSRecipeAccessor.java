@@ -8,16 +8,16 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(value = GTRecipeSchema.class, remap = false)
 public interface KJSRecipeAccessor {
-    @Accessor("ALL_INPUTS")
-    static RecipeKey<CapabilityMap> luetech$getAllInputs() {
-        throw new AssertionError();
-    }
-    @Accessor("ALL_OUTPUTS")
-    static RecipeKey<CapabilityMap> luetech$getAllOutputs() {
-        throw new AssertionError();
-    }
-    @Accessor("ALL_TICK_OUTPUTS")
-    static RecipeKey<CapabilityMap> luetech$getAllTickOutputs() {
-        throw new AssertionError();
-    }
+//    @Accessor("ALL_INPUTS")
+//    static RecipeKey<CapabilityMap> luetech$getAllInputs() {
+//        throw new AssertionError();
+//    }
+//    @Accessor("ALL_OUTPUTS")
+//    static RecipeKey<CapabilityMap> luetech$getAllOutputs() {
+//        throw new AssertionError();
+//    }
+//    @Accessor("ALL_TICK_OUTPUTS")
+//    static RecipeKey<CapabilityMap> luetech$getAllTickOutputs() {
+//        throw new AssertionError();
+//    }
 }

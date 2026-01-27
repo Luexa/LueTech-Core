@@ -11,7 +11,7 @@ import static sh.lue.luetech.common.registry.LTRegistration.REGISTRATE;
 
 @Mixin(value = CommonInit.class, remap = false)
 public class GTCommonInitMixin {
-    @Inject(method = "onRegisterEarly",
+    @Inject(method = "onRegisterLate",
             at = @At(value = "INVOKE",
                     target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;creativeModeTab(Lcom/tterrag/registrate/util/entry/RegistryEntry;)V",
                     ordinal = 0))
@@ -19,7 +19,7 @@ public class GTCommonInitMixin {
         REGISTRATE.creativeModeTab(LTCreativeModeTabs.MATERIAL_BLOCK);
     }
 
-    @Inject(method = "onRegisterEarly",
+    @Inject(method = "onRegisterLate",
             at = @At(value = "INVOKE",
                     target = "Lcom/gregtechceu/gtceu/api/registry/registrate/GTRegistrate;creativeModeTab(Lcom/tterrag/registrate/util/entry/RegistryEntry;)V",
                     ordinal = 1))
