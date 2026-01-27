@@ -9,7 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sh.lue.luetech.common.machine.IBeaconConnected;
+import sh.lue.luetech.api.IBeaconConnected;
 import sh.lue.luetech.common.machine.multiblock.UniqueMultiblockMachine;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 

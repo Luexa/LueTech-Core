@@ -6,7 +6,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import sh.lue.luetech.LueTech;
-import sh.lue.luetech.integration.neoforge.IEnhancedConvertedEUReceiver;
+import sh.lue.luetech.api.IEnhancedConvertedEUReceiver;
 
 @EventBusSubscriber(modid = LueTech.MODID)
 public class JDTIntegration {
@@ -14,7 +14,7 @@ public class JDTIntegration {
     static void attachCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlock(GTCapability.CAPABILITY_ENERGY_CONTAINER, (level, pos, state, blockEntity, side) -> {
             if (blockEntity instanceof IEnhancedConvertedEUReceiver enhancedReceiver) {
-                return enhancedReceiver.getEnergyContainer(side);
+                return enhancedReceiver.luetech$getEnergyContainer(side);
             }
             return null;
         },

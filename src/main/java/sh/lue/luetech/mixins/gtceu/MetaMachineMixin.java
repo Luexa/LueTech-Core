@@ -15,8 +15,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import sh.lue.luetech.LueTech;
-import sh.lue.luetech.common.machine.BeaconSingleblockConnections;
-import sh.lue.luetech.common.machine.IBeaconConnected;
+import sh.lue.luetech.api.BeaconSingleblockConnections;
+import sh.lue.luetech.api.IBeaconConnected;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 
 import java.util.UUID;

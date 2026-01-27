@@ -18,7 +18,7 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LueTech;
-import sh.lue.luetech.common.machine.IBeaconConnected;
+import sh.lue.luetech.api.IBeaconConnected;
 import sh.lue.luetech.common.machine.multiblock.electric.DominanceBeaconMachine;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 import sh.lue.luetech.utils.BigIntegerUtils;

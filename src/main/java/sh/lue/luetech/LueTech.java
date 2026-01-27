@@ -1,6 +1,5 @@
 package sh.lue.luetech;
 
-import com.direwolf20.justdirethings.common.blockentities.basebe.PoweredMachineBE;
 import com.gregtechceu.gtceu.api.capability.compat.FeCompat;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.material.material.event.PostMaterialEvent;
@@ -28,8 +27,9 @@ import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
+import sh.lue.luetech.api.BeaconSingleblockConnections;
+import sh.lue.luetech.api.IEnergyStorageProvider;
 import sh.lue.luetech.commands.BigIntegerArgumentType;
-import sh.lue.luetech.common.machine.BeaconSingleblockConnections;
 import sh.lue.luetech.common.saveddata.LTSavedData;
 import sh.lue.luetech.data.*;
 import sh.lue.luetech.data.curio.LTCuriosProvider;
@@ -146,14 +146,17 @@ public class LueTech {
                                 network.setStoredPower(networkPower.subtract(BigInteger.valueOf(acceptedAmps * voltage)));
                             }
                         }
-                    } else if (machine instanceof PoweredMachineBE poweredMachine) {
-                        int ratio = FeCompat.ratio(false);
-                        var networkPower = network.getStoredPower();
-                        long availableEU = BigIntegerUtils.saturatedInt(networkPower);
-                        int availableFE = (int)Math.min(Integer.MAX_VALUE, availableEU * ratio);
-                        int acceptedFE = poweredMachine.insertEnergy(availableFE, false);
-                        if (acceptedFE > 0) {
-                            network.setStoredPower(networkPower.subtract(BigInteger.valueOf(Math.ceilDiv(acceptedFE, ratio))));
+                    } else if (machine instanceof IEnergyStorageProvider energyStorageProvider) {
+                        var energyStorage = energyStorageProvider.luetech$getEnergyStorage(null);
+                        if (energyStorage != null) {
+                            int ratio = FeCompat.ratio(false);
+                            var networkPower = network.getStoredPower();
+                            long availableEU = BigIntegerUtils.saturatedInt(networkPower);
+                            int availableFE = (int) Math.min(Integer.MAX_VALUE, availableEU * ratio);
+                            int acceptedFE = energyStorage.receiveEnergy(availableFE, false);
+                            if (acceptedFE > 0) {
+                                network.setStoredPower(networkPower.subtract(BigInteger.valueOf(Math.ceilDiv(acceptedFE, ratio))));
+                            }
                         }
                     }
                 }

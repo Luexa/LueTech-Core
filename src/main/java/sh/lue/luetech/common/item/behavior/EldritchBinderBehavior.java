@@ -17,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import sh.lue.luetech.LueTech;
-import sh.lue.luetech.common.machine.IBeaconConnected;
+import sh.lue.luetech.api.IBeaconConnected;
 import sh.lue.luetech.common.machine.multiblock.part.EldritchEnergyHatchPartMachine;
 import sh.lue.luetech.utils.TeamUtils;
 

@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LTCompat;
 import sh.lue.luetech.LueTech;
-import sh.lue.luetech.common.machine.IBeaconConnected;
+import sh.lue.luetech.api.IBeaconConnected;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 import sh.lue.luetech.data.LTBlocks;
 

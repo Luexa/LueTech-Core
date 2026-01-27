@@ -1,4 +1,4 @@
-package sh.lue.luetech.common.machine;
+package sh.lue.luetech.api;
 
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;

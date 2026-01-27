@@ -1,4 +1,4 @@
-package sh.lue.luetech.common.machine;
+package sh.lue.luetech.api;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;

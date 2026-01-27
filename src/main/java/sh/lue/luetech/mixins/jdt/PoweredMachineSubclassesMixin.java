@@ -1,6 +1,7 @@
 package sh.lue.luetech.mixins.jdt;
 
 import com.direwolf20.justdirethings.common.blockentities.*;
+import com.direwolf20.justdirethings.common.blockentities.basebe.PoweredMachineBE;
 import com.direwolf20.justdirethings.common.capabilities.MachineEnergyStorage;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import net.minecraft.core.BlockPos;
@@ -9,21 +10,20 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Implements;
-import org.spongepowered.asm.mixin.Interface;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import sh.lue.luetech.LueTech;
-import sh.lue.luetech.common.machine.BeaconSingleblockConnections;
-import sh.lue.luetech.common.machine.IBeaconConnected;
+import sh.lue.luetech.api.BeaconSingleblockConnections;
+import sh.lue.luetech.api.IBeaconConnected;
+import sh.lue.luetech.api.IEnergyStorageProvider;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 import sh.lue.luetech.data.LTAttachments;
 import sh.lue.luetech.integration.jdt.JDTNativeEUContainer;
-import sh.lue.luetech.integration.neoforge.IEnhancedConvertedEUReceiver;
+import sh.lue.luetech.api.IEnhancedConvertedEUReceiver;
 
 import java.util.UUID;
 
@@ -39,10 +39,9 @@ import java.util.UUID;
         ParadoxMachineBE.class,
 })
 @Implements({
-        @Interface(iface = IEnhancedConvertedEUReceiver.class, prefix = "eureceiver$"),
         @Interface(iface = IBeaconConnected.class, prefix = "beacon$"),
 })
-public abstract class PoweredMachineSubclassesMixin extends BlockEntity {
+public abstract class PoweredMachineSubclassesMixin extends BlockEntity implements IEnergyStorageProvider, IEnhancedConvertedEUReceiver {
     @Unique
     @Nullable
     private JDTNativeEUContainer luetech$container;
@@ -60,7 +59,13 @@ public abstract class PoweredMachineSubclassesMixin extends BlockEntity {
         cir.setReturnValue(luetech$container.getWrappedStorage());
     }
 
-    public IEnergyContainer eureceiver$getEnergyContainer(@Nullable Direction side) {
+    @Nullable
+    public IEnergyStorage luetech$getEnergyStorage(@Nullable Direction side) {
+        return ((PoweredMachineBE)(Object)this).getEnergyStorage();
+    }
+
+    @Nullable
+    public IEnergyContainer luetech$getEnergyContainer(@Nullable Direction side) {
         if (luetech$container == null) {
             luetech$container = new JDTNativeEUContainer(this);
         }
