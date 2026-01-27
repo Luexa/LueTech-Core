@@ -133,6 +133,6 @@ public class LTMachineUtils {
                                 Component.translatable("luetech.machine.eldritch_energy_hatch." + multiOrNot + ".tooltip"))
                         .overlayTieredHullModel(overlayPath)
                         .register(),
-                amperage == 2 ? ALL_TIERS : HIGH_TIERS);
+                amperage == 2 ? ALL_TIERS : tiersBetween(IV, MAX));
     }
 }

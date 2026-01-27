@@ -12,6 +12,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -46,24 +47,7 @@ public class EldritchBinderBehavior implements IInteractionItem {
             }
             if (level instanceof ServerLevel) {
                 var beaconConnected = (IBeaconConnected)machine;
-                if (beaconConnected.getConnectedBeaconNetwork() != null) {
-                    beaconConnected.setBeaconNetwork(null);
-                    player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.success_unlinked")
-                            .withStyle(ChatFormatting.GREEN), true);
-                } else {
-                    var playerUUID = player.getUUID();
-                    var teamUUID = TeamUtils.getInstance().getTeamUUID(playerUUID);
-                    var network = teamUUID != null ? LueTech.savedData.dominanceBeacon.getNetworkForTeam(teamUUID) :
-                            LueTech.savedData.dominanceBeacon.getNetworkForPlayer(playerUUID);
-                    if (network == null) {
-                        player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.error_no_network")
-                                .withStyle(ChatFormatting.RED), true);
-                    } else {
-                        beaconConnected.setBeaconNetwork(network.getUUID());
-                        player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.success")
-                                .withStyle(ChatFormatting.GREEN), true);
-                    }
-                }
+                registerToMachine(player, beaconConnected);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else if (blockEntity instanceof IBeaconConnected beaconConnected) {
@@ -71,27 +55,31 @@ public class EldritchBinderBehavior implements IInteractionItem {
                 return InteractionResult.FAIL;
             }
             if (level instanceof ServerLevel) {
-                if (beaconConnected.getConnectedBeaconNetwork() != null) {
-                    beaconConnected.setBeaconNetwork(null);
-                    player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.success_unlinked")
-                            .withStyle(ChatFormatting.GREEN), true);
-                } else {
-                    var playerUUID = player.getUUID();
-                    var teamUUID = TeamUtils.getInstance().getTeamUUID(playerUUID);
-                    var network = teamUUID != null ? LueTech.savedData.dominanceBeacon.getNetworkForTeam(teamUUID) :
-                            LueTech.savedData.dominanceBeacon.getNetworkForPlayer(playerUUID);
-                    if (network == null) {
-                        player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.error_no_network")
-                                .withStyle(ChatFormatting.RED), true);
-                    } else {
-                        beaconConnected.setBeaconNetwork(network.getUUID());
-                        player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.success")
-                                .withStyle(ChatFormatting.GREEN), true);
-                    }
-                }
+                registerToMachine(player, beaconConnected);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         return InteractionResult.PASS;
+    }
+
+    private void registerToMachine(Player player, IBeaconConnected beaconConnected) {
+        if (beaconConnected.getConnectedBeaconNetwork() != null) {
+            beaconConnected.setBeaconNetwork(null);
+            player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.success_unlinked")
+                    .withStyle(ChatFormatting.GREEN), true);
+        } else {
+            var playerUUID = player.getUUID();
+            var teamUUID = TeamUtils.getInstance().getTeamUUID(playerUUID);
+            var network = teamUUID != null ? LueTech.savedData.dominanceBeacon.getNetworkForTeam(teamUUID) :
+                    LueTech.savedData.dominanceBeacon.getNetworkForPlayer(playerUUID);
+            if (network == null) {
+                player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.error_no_network")
+                        .withStyle(ChatFormatting.RED), true);
+            } else {
+                beaconConnected.setBeaconNetwork(network.getUUID());
+                player.displayClientMessage(Component.translatable("luetech.item.eldritch_binder.success")
+                        .withStyle(ChatFormatting.GREEN), true);
+            }
+        }
     }
 }

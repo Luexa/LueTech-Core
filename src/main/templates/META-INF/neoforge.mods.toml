@@ -81,7 +81,7 @@ side="BOTH"
 modId="jade"
 type="optional"
 versionRange="[${jade_version},)"
-ordering="AFTER"
+ordering="NONE"
 side="BOTH"
 
 [[dependencies.${mod_id}]]
