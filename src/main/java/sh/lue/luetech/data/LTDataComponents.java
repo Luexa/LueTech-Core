@@ -12,7 +12,7 @@ import sh.lue.luetech.common.item.behavior.BatteryPackBehavior.WirelessChargerCo
 
 public class LTDataComponents {
     public static final DeferredRegister.DataComponents DATA_COMPONENTS = DeferredRegister
-            .createDataComponents(Registries.DATA_COMPONENT_TYPE, LueTech.MODID);
+            .createDataComponents(Registries.DATA_COMPONENT_TYPE, LueTech.MOD_ID);
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Boolean>> BATTERY_PACK_ACTIVE =
             DATA_COMPONENTS.registerComponentType("battery_pack_active",

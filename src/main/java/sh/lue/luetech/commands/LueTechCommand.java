@@ -21,7 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
-@EventBusSubscriber(modid = LueTech.MODID)
+@EventBusSubscriber(modid = LueTech.MOD_ID)
 public class LueTechCommand {
     private static final Component NEWLINE = Component.literal("\n");
     private static final Component DOUBLE_NEWLINE = Component.literal("\n\n");

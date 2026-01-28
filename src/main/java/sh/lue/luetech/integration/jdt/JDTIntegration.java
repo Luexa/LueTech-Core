@@ -8,7 +8,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import sh.lue.luetech.LueTech;
 import sh.lue.luetech.api.IEnhancedConvertedEUReceiver;
 
-@EventBusSubscriber(modid = LueTech.MODID)
+@EventBusSubscriber(modid = LueTech.MOD_ID)
 public class JDTIntegration {
     @SubscribeEvent
     static void attachCapabilities(RegisterCapabilitiesEvent event) {

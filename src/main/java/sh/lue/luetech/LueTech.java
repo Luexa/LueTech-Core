@@ -39,8 +39,8 @@ import sh.lue.luetech.utils.BigIntegerUtils;
 
 import java.math.BigInteger;
 
-@Mod(LueTech.MODID)
-@EventBusSubscriber(modid = LueTech.MODID)
+@Mod(LueTech.MOD_ID)
+@EventBusSubscriber(modid = LueTech.MOD_ID)
 public class LueTech {
     @ApiStatus.Internal
     public static IEventBus modEventBus;
@@ -48,13 +48,13 @@ public class LueTech {
     @ApiStatus.Internal
     public static LTSavedData savedData;
 
-    public static final String MODID = "luetech";
+    public static final String MOD_ID = "luetech";
     public static final String NAME = "LueTech";
     public static final Logger LOGGER = LogUtils.getLogger();
 
     @NotNull
     public static ResourceLocation id(@NotNull String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public LueTech(IEventBus modEventBus, ModContainer modContainer) {

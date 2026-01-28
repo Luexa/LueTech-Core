@@ -12,7 +12,7 @@ import sh.lue.luetech.data.dynamic.recipe.MiscRecipes;
 
 import java.util.function.Consumer;
 
-@GTAddon(LueTech.MODID)
+@GTAddon(LueTech.MOD_ID)
 public class LueTechGTAddon implements IGTAddon {
     @Override
     public GTRegistrate getRegistrate() {

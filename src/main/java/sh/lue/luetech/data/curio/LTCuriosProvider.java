@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 public class LTCuriosProvider extends CuriosDataProvider {
     public LTCuriosProvider(PackOutput output, ExistingFileHelper fileHelper,
                             CompletableFuture<HolderLookup.Provider> registries) {
-        super(LueTech.MODID, output, fileHelper, registries);
+        super(LueTech.MOD_ID, output, fileHelper, registries);
     }
 
     @Override

@@ -12,8 +12,8 @@ import java.util.List;
 import static com.gregtechceu.gtceu.data.datagen.lang.LangHandler.getMultiLang;
 
 public class LTFormatting {
-    private static final String ITEM_PREFIX = "item." + LueTech.MODID + ".";
-    private static final String BLOCK_PREFIX = "block." + LueTech.MODID + ".";
+    private static final String ITEM_PREFIX = "item." + LueTech.MOD_ID + ".";
+    private static final String BLOCK_PREFIX = "block." + LueTech.MOD_ID + ".";
 
     public static void appendTooltips(ItemStack stack, TooltipFlag flag, List<Component> tooltips) {
         String translationKey = stack.getDescriptionId();

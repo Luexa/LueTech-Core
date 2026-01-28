@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 
 public class LTAttachments {
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
-            DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, LueTech.MODID);
+            DeferredRegister.create(NeoForgeRegistries.Keys.ATTACHMENT_TYPES, LueTech.MOD_ID);
 
     public static final Supplier<AttachmentType<EUOverflowAttachment>> EU_OVERFLOW =
             ATTACHMENT_TYPES.register("eu_overflow",
