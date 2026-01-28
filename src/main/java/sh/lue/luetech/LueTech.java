@@ -13,6 +13,7 @@ import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.CrashReportCallables;
@@ -72,6 +73,19 @@ public class LueTech {
         CrashReportCallables.registerHeader(() -> "NOTICE: Instance contains LueTech, which extensively mixins certain mods!");
     }
 
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    static void registerEarly(@NotNull RegisterEvent event) {
+        event.register(GTRegistries.ELEMENT_REGISTRY, registry -> {
+            LTElements.init();
+        });
+        event.register(GTRegistries.MATERIAL_REGISTRY, registry -> {
+            LTMaterials.init();
+        });
+        event.register(GTRegistries.MACHINE_REGISTRY, registry -> {
+            LTMachines.init();
+        });
+    }
+
     @SubscribeEvent
     static void register(@NotNull RegisterEvent event) {
         event.register(GTRegistries.MACHINE_REGISTRY, registry -> {
@@ -85,9 +99,6 @@ public class LueTech {
                     new BigIntegerArgumentType.Info()
             ));
         });
-        LTElements.init();
-        LTMaterials.init();
-        LTMachines.init();
     }
 
     @SubscribeEvent
