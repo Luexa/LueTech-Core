@@ -34,8 +34,12 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
     @Nullable
     private UUID networkUUID;
     private int excess;
-    private static final BigInteger MULTIPLIER = BigInteger.valueOf(10000L);
-    private static final BigInteger MAX_SAFE_POWER = BigInteger.valueOf((long)StoredEnergyAmount.MAX_MAXIMUM);
+    private static final int MULT_AE = 100000;
+    private static final BigInteger BIG_MULT_AE = BigInteger.valueOf(MULT_AE);
+    private static final int MULT_AE_PER_EU = (int)(LTCompat.aePerEu() * MULT_AE);
+    private static final BigInteger BIG_MULT_AE_PER_EU = BigInteger.valueOf(MULT_AE_PER_EU);
+    private static final BigInteger MAX_SAFE_POWER = BigInteger.valueOf((long)(StoredEnergyAmount.MAX_MAXIMUM / 2));
+    private static final double MAX_MAXIMUM = (double)MAX_SAFE_POWER.longValue() * LTCompat.aePerEu();
 
     public EldritchEnergyAcceptorBlockEntity(BlockPos pos, BlockState state) {
         super(LTBlocks.ELDRITCH_ENERGY_ACCEPTOR_ENTITY.get(), pos, state);
@@ -68,14 +72,19 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
 
     @Override
     public double getAEMaxPower() {
-        return StoredEnergyAmount.MAX_MAXIMUM;
+        return MAX_MAXIMUM;
     }
 
     @Override
     public double getAECurrentPower() {
         var network = getConnectedBeaconNetwork();
         if (network == null) return 0;
-        return Math.min(StoredEnergyAmount.MAX_MAXIMUM, network.getStoredPower().min(MAX_SAFE_POWER).doubleValue() * LTCompat.aePerEu());
+        var networkPower = network.getStoredPower();
+        if (networkPower.compareTo(MAX_SAFE_POWER) >= 0) {
+            return MAX_MAXIMUM;
+        } else {
+            return (double)networkPower.longValue() * LTCompat.aePerEu();
+        }
     }
 
     @Override
@@ -85,27 +94,52 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
 
     private double extractAEPower(double amt, Actionable mode) {
         var network = getConnectedBeaconNetwork();
-        if (network == null || !network.getActive()) return 0;
-        if (amt > StoredEnergyAmount.MAX_MAXIMUM) {
-            amt = StoredEnergyAmount.MAX_MAXIMUM;
+        if (amt <= 0 || network == null || !network.getActive()) return 0;
+        var networkPower = network.getStoredPower();
+        if (mode.isSimulate()) {
+            if (networkPower.compareTo(MAX_SAFE_POWER) >= 0) {
+                return amt;
+            } else {
+                return Math.min(amt, (double)networkPower.longValue() * LTCompat.aePerEu());
+            }
         }
-        var networkPowerMultiplied = network.getStoredPower().multiply(MULTIPLIER).add(BigInteger.valueOf(excess));
-        var euToExtractMultiplied = BigInteger.valueOf((long)(amt / LTCompat.aePerEu() * 10000));
-        boolean canExtractFullAmount = false;
-        var extractedMultiplied = networkPowerMultiplied;
-        if (networkPowerMultiplied.compareTo(euToExtractMultiplied) >= 0) {
-            canExtractFullAmount = true;
-            extractedMultiplied = euToExtractMultiplied;
-            networkPowerMultiplied = networkPowerMultiplied.subtract(extractedMultiplied);
+        var safeNetworkPower = networkPower.min(MAX_SAFE_POWER);
+        var multAvailablePower = safeNetworkPower
+                .multiply(BIG_MULT_AE_PER_EU)
+                .add(BigInteger.valueOf(excess));
+        var multAmt = BigInteger.valueOf((long)Math.floor(amt))
+                .multiply(BIG_MULT_AE)
+                .add(BigInteger.valueOf((long)Math.ceil((Math.max(amt, 0.000001) % 1.0) * MULT_AE)));
+        if (multAvailablePower.compareTo(multAmt) >= 0) {
+            var multRemaining = multAvailablePower.subtract(multAmt);
+            var remainingPieces = multRemaining.divideAndRemainder(BIG_MULT_AE_PER_EU);
+            var powerToRemove = safeNetworkPower.subtract(remainingPieces[0]);
+            network.setStoredPower(networkPower.subtract(powerToRemove));
+            excess = remainingPieces[1].intValue();
+            return amt;
         } else {
-            networkPowerMultiplied = BigInteger.ZERO;
+            double result = (double)safeNetworkPower.longValue() * LTCompat.aePerEu() + ((double)excess / MULT_AE);
+            network.setStoredPower(networkPower.subtract(safeNetworkPower));
+            excess = 0;
+            return result;
         }
-        var quotientAndRemainder = networkPowerMultiplied.divideAndRemainder(MULTIPLIER);
-        if (!mode.isSimulate()) {
-            network.setStoredPower(quotientAndRemainder[0]);
-            excess = quotientAndRemainder[1].intValue();
-        }
-        return canExtractFullAmount ? amt : extractedMultiplied.doubleValue() / 10000 * LTCompat.aePerEu();
+//        var networkPowerMultiplied = network.getStoredPower().multiply(MULTIPLIER).add(BigInteger.valueOf(excess));
+//        var euToExtractMultiplied = BigInteger.valueOf((long)(amt / LTCompat.aePerEu() * 10000));
+//        boolean canExtractFullAmount = false;
+//        var extractedMultiplied = networkPowerMultiplied;
+//        if (networkPowerMultiplied.compareTo(euToExtractMultiplied) >= 0) {
+//            canExtractFullAmount = true;
+//            extractedMultiplied = euToExtractMultiplied;
+//            networkPowerMultiplied = networkPowerMultiplied.subtract(extractedMultiplied);
+//        } else {
+//            networkPowerMultiplied = BigInteger.ZERO;
+//        }
+//        var quotientAndRemainder = networkPowerMultiplied.divideAndRemainder(MULTIPLIER);
+//        if (!mode.isSimulate()) {
+//            network.setStoredPower(quotientAndRemainder[0]);
+//            excess = quotientAndRemainder[1].intValue();
+//        }
+//        return canExtractFullAmount ? amt : extractedMultiplied.doubleValue() / 10000 * LTCompat.aePerEu();
     }
 
     @Override
