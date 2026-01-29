@@ -19,14 +19,24 @@ import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.client.util.TooltipHelper.rainbowColor;
-import static com.klikli_dev.occultism.util.TextUtil.SPIRIT_NAME_NOT_YET_KNOWN;
 import static com.klikli_dev.occultism.registry.OccultismDataComponents.SPIRIT_NAME;
+import static com.klikli_dev.occultism.util.TextUtil.SPIRIT_NAME_NOT_YET_KNOWN;
 import static sh.lue.luetech.common.registry.LTRegistration.REGISTRATE;
 
 public class LTItems {
     static {
         REGISTRATE.creativeModeTab(LTCreativeModeTabs.ITEM);
     }
+
+    public static final ItemEntry<Item> SYPHIA_CRYSTAL = REGISTRATE
+            .item("syphia_crystal", Item::new)
+            .model(NonNullBiConsumer.noop())
+            .register();
+
+    public static final ItemEntry<Item> SYPHIA_CRYSTAL_SEED = REGISTRATE
+            .item("syphia_crystal_seed", Item::new)
+            .model(NonNullBiConsumer.noop())
+            .register();
 
     public static final ItemEntry<Item> CHARGING_LENS = REGISTRATE
             .item("charging_lens", Item::new)

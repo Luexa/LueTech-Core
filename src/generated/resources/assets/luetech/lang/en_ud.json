@@ -141,6 +141,8 @@
     "item.luetech.spectral_processor_computer.tooltip_special": "ʇınɔɹıƆ ɹǝı⟘-ΛH∩Ɛ§",
     "item.luetech.spectral_processor_mainframe": "ǝɯɐɹɟuıɐW ɹossǝɔoɹԀ ןɐɹʇɔǝdS",
     "item.luetech.spectral_processor_mainframe.tooltip_special": "ʇınɔɹıƆ ɹǝı⟘-ΛƎ∩Ɛ§",
+    "item.luetech.syphia_crystal": "ןɐʇsʎɹƆ ɐıɥdʎS",
+    "item.luetech.syphia_crystal_seed": "pǝǝS ןɐʇsʎɹƆ ɐıɥdʎS",
     "item.luetech.temporal_processor": "ɹossǝɔoɹԀ ןɐɹodɯǝ⟘",
     "item.luetech.temporal_processor.tooltip.0": "ǝbuɐɥɔ oʇ ʇɔǝظqns ǝɯɐNㄥ§",
     "item.luetech.temporal_processor.tooltip.1": "ʇınɔɹıƆ ɹǝı⟘-ΛH∩ɟ§",
@@ -248,6 +250,7 @@
     "material.luetech.lutetium_elementium_quantonide": "ǝpıuoʇuɐnὉ ɯnıʇuǝɯǝןƎ ɯnıʇǝʇnꞀ",
     "material.luetech.magnetic_quantonium": "ɯnıuoʇuɐnὉ ɔıʇǝubɐW",
     "material.luetech.quantonium": "ɯnıuoʇuɐnὉ",
+    "material.luetech.syphia": "ɐıɥdʎS",
     "material.luetech.syphiridium_solution": "uoıʇnןoS ɯnıpıɹıɥdʎS",
     "material.luetech.syphite": "ǝʇıɥdʎS",
     "recipe_type.luetech.atomic_rewriter": "ɹǝʇıɹʍǝᴚ ɔıɯoʇⱯ"

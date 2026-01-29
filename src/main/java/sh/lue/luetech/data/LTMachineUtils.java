@@ -1,6 +1,5 @@
 package sh.lue.luetech.data;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.*;
@@ -9,7 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.config.ConfigHolder;
-import com.gregtechceu.gtceu.data.machine.GTMachineUtils;
 import com.gregtechceu.gtceu.data.medicalcondition.GTMedicalConditions;
 import com.gregtechceu.gtceu.data.recipe.GTRecipeModifiers;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -24,11 +22,7 @@ import java.util.Locale;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.ALL_TIERS;
-import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.HIGH_TIERS;
-import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.ELECTRIC_TIERS;
-import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.defaultEnvironmentRequirement;
-import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.defaultTankSizeFunction;
-import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.workableTiered;
+import static com.gregtechceu.gtceu.data.machine.GTMachineUtils.*;
 import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
 import static sh.lue.luetech.common.registry.LTRegistration.REGISTRATE;
 

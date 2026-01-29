@@ -12,13 +12,14 @@ import com.gregtechceu.gtceu.api.material.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.tag.TagPrefix;
 import com.klikli_dev.occultism.registry.OccultismBlocks;
 import com.klikli_dev.occultism.registry.OccultismItems;
-import sh.lue.luetech.LTCompat;
 import sh.lue.luetech.LueTech;
+import sh.lue.luetech.data.material.LTTagPrefix;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.material.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.material.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.data.material.GTMaterials.*;
+import static sh.lue.luetech.data.material.LTMaterialFlags.*;
 
 public class LTMaterials {
     private static final TagPrefix[] ALL_ORE_PREFIXES = new TagPrefix[] {
@@ -76,6 +77,13 @@ public class LTMaterials {
     static {
         Quantonium.getProperty(PropertyKey.INGOT).setMagneticMaterial(QuantoniumMagnetic);
     }
+
+    public static final Material Syphia = new Material.Builder(LueTech.id("syphia"))
+            .gem()
+            .components(Sulfur, 1, Yttrium, 1, Phosphorus, 1, Hydrogen, 1)
+            .color(0xffffff)
+            .flags(GENERATE_CRYSTAL_SEED)
+            .buildAndRegister();
 
     public static final Material Syphite = new Material.Builder(LueTech.id("syphite"))
             .dust()
@@ -176,6 +184,21 @@ public class LTMaterials {
             if (prefix != TagPrefix.ore && prefix != TagPrefix.oreNetherrack) {
                 prefix.setIgnored(Iesnium);
             }
+        }
+
+        TagPrefix.gem.setIgnored(Syphia, () -> LTItems.SYPHIA_CRYSTAL);
+        LTTagPrefix.crystalSeed.setIgnored(Syphia, () -> LTItems.SYPHIA_CRYSTAL_SEED);
+        for (var prefix : new TagPrefix[] {
+                TagPrefix.block,
+                TagPrefix.gemExquisite,
+                TagPrefix.gemFlawed,
+                TagPrefix.gemFlawless,
+                TagPrefix.gemChipped,
+                TagPrefix.dust,
+                TagPrefix.dustTiny,
+                TagPrefix.dustSmall,
+        }) {
+            prefix.setIgnored(Syphia);
         }
 
         /* Occultism */

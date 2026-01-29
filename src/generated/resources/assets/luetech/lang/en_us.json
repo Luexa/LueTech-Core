@@ -141,6 +141,8 @@
     "item.luetech.spectral_processor_computer.tooltip_special": "§3UHV-Tier Circuit",
     "item.luetech.spectral_processor_mainframe": "Spectral Processor Mainframe",
     "item.luetech.spectral_processor_mainframe.tooltip_special": "§3UEV-Tier Circuit",
+    "item.luetech.syphia_crystal": "Syphia Crystal",
+    "item.luetech.syphia_crystal_seed": "Syphia Crystal Seed",
     "item.luetech.temporal_processor": "Temporal Processor",
     "item.luetech.temporal_processor.tooltip.0": "§7Name subject to change",
     "item.luetech.temporal_processor.tooltip.1": "§fUHV-Tier Circuit",
@@ -248,6 +250,7 @@
     "material.luetech.lutetium_elementium_quantonide": "Lutetium Elementium Quantonide",
     "material.luetech.magnetic_quantonium": "Magnetic Quantonium",
     "material.luetech.quantonium": "Quantonium",
+    "material.luetech.syphia": "Syphia",
     "material.luetech.syphiridium_solution": "Syphiridium Solution",
     "material.luetech.syphite": "Syphite",
     "recipe_type.luetech.atomic_rewriter": "Atomic Rewriter"
