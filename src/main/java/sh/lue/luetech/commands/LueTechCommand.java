@@ -15,6 +15,9 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import sh.lue.luetech.LueTech;
+import sh.lue.luetech.api.BeaconSingleblockConnections;
+import sh.lue.luetech.common.blockentity.EldritchEnergyAcceptorBlockEntity;
+import sh.lue.luetech.common.machine.multiblock.part.EldritchEnergyHatchPartMachine;
 
 import java.math.BigInteger;
 import java.util.UUID;
@@ -48,10 +51,12 @@ public class LueTechCommand {
                                 .then(Commands.literal("list")
                                         .executes(LueTechCommand::listBeaconNetworks))
                                 .then(beaconSetSubcommand()))
-                        .then(Commands.literal("unique_machine")
+                        .then(Commands.literal("dump")
                                 .requires(src -> src.hasPermission(2))
-                                .then(Commands.literal("dump")
-                                        .executes(LueTechCommand::dumpUniqueMachines))));
+                                .then(Commands.literal("unique_machines")
+                                        .executes(LueTechCommand::dumpUniqueMachines))
+                                .then(Commands.literal("instance_counts")
+                                        .executes(LueTechCommand::dumpInstanceCounts))));
     }
 
     private static ArgumentBuilder<CommandSourceStack, ?> beaconSetSubcommand() {
@@ -131,7 +136,7 @@ public class LueTechCommand {
             }
             return listing;
         };
-        source.sendSuccess(supplyListing, true);
+        source.sendSuccess(supplyListing, false);
         return 1;
     }
 
@@ -148,7 +153,7 @@ public class LueTechCommand {
         }
 
         network.setMaxPower(newValue);
-        source.sendSuccess(() -> Component.literal("Network max power successfully updated"), true);
+        source.sendSuccess(() -> Component.literal("Network max power successfully updated"), false);
         return 1;
     }
 
@@ -165,7 +170,7 @@ public class LueTechCommand {
         }
 
         network.setStoredPower(newValue);
-        source.sendSuccess(() -> Component.literal("Network stored power successfully updated"), true);
+        source.sendSuccess(() -> Component.literal("Network stored power successfully updated"), false);
         return 1;
     }
 
@@ -217,8 +222,35 @@ public class LueTechCommand {
             source.sendSuccess(() -> Component.literal("No unique machines in Saved Data")
                     .withStyle(ChatFormatting.AQUA), false);
         } else {
-            source.sendSuccess(() -> dump, true);
+            source.sendSuccess(() -> dump, false);
         }
+        return 1;
+    }
+
+    private static int dumpInstanceCounts(CommandContext<CommandSourceStack> ctx) {
+        MutableComponent dump = Component.literal("").withStyle(ChatFormatting.AQUA);
+        int totalSingleblocks = BeaconSingleblockConnections.NETWORK_CONNECTIONS.size();
+        int totalSingleblockNetworks = BeaconSingleblockConnections.SINGLEBLOCK_NETWORKS.size();
+        int totalAcceptors = EldritchEnergyAcceptorBlockEntity.INSTANCES.size();
+        int totalHatchNetworks = EldritchEnergyHatchPartMachine.NETWORK_MEMBERS.size();
+        int totalHatches = 0;
+        for (var networkMembers : EldritchEnergyHatchPartMachine.NETWORK_MEMBERS.values()) {
+            totalHatches += networkMembers.size();
+        }
+        dump.append("[[ ");
+        dump.append("INSTANCE COUNTS").withStyle(ChatFormatting.GREEN);
+        dump.append(" ]]\nEldritch Singleblocks: ");
+        dump.append(Component.literal(Integer.toString(totalSingleblocks)).withStyle(ChatFormatting.GOLD));
+        dump.append(" total across ");
+        dump.append(Component.literal(Integer.toString(totalSingleblockNetworks)).withStyle(ChatFormatting.GOLD));
+        dump.append(" networks\nEldritch Acceptors: ");
+        dump.append(Component.literal(Integer.toString(totalAcceptors)).withStyle(ChatFormatting.GOLD));
+        dump.append("\nEldritch Hatches: ");
+        dump.append(Component.literal(Integer.toString(totalHatches)).withStyle(ChatFormatting.GOLD));
+        dump.append(" total across ");
+        dump.append(Component.literal(Integer.toString(totalHatchNetworks)).withStyle(ChatFormatting.GOLD));
+        dump.append(" networks");
+        ctx.getSource().sendSuccess(() -> dump, false);
         return 1;
     }
 }

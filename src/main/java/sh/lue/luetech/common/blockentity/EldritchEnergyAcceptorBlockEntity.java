@@ -135,7 +135,7 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
 
     @ApiStatus.Internal
     public void stockBuffer() {
-        double toStock = Math.min(MAX_MAXIMUM, usedLastTick * 3) - buffer;
+        double toStock = Math.min(MAX_MAXIMUM, Math.max(usedLastTick, usedThisTick) * 3) - buffer;
         if (toStock <= 0) return;
         var network = getConnectedBeaconNetwork();
         if (network == null || !network.getActive()) return;
