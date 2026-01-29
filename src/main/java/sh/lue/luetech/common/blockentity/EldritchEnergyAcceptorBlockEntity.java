@@ -12,6 +12,7 @@ import appeng.api.networking.ticking.TickingRequest;
 import appeng.api.util.AECableType;
 import appeng.blockentity.grid.AENetworkedBlockEntity;
 import appeng.me.energy.StoredEnergyAmount;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -20,6 +21,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LTCompat;
 import sh.lue.luetech.LueTech;
@@ -28,18 +30,22 @@ import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 import sh.lue.luetech.data.LTBlocks;
 
 import java.math.BigInteger;
+import java.util.Set;
 import java.util.UUID;
 
 public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity implements IAEPowerStorage, IGridTickable, IBeaconConnected {
+    @ApiStatus.Internal
+    public static Set<EldritchEnergyAcceptorBlockEntity> INSTANCES = new ObjectOpenHashSet<>();
+
     @Nullable
     private UUID networkUUID;
-    private int excess;
-    private static final int MULT_AE = 100000;
-    private static final BigInteger BIG_MULT_AE = BigInteger.valueOf(MULT_AE);
-    private static final int MULT_AE_PER_EU = (int)(LTCompat.aePerEu() * MULT_AE);
-    private static final BigInteger BIG_MULT_AE_PER_EU = BigInteger.valueOf(MULT_AE_PER_EU);
     private static final BigInteger MAX_SAFE_POWER = BigInteger.valueOf((long)(StoredEnergyAmount.MAX_MAXIMUM / 2));
     private static final double MAX_MAXIMUM = (double)MAX_SAFE_POWER.longValue() * LTCompat.aePerEu();
+
+    private double buffer;
+    private long lastTimeStamp = Long.MIN_VALUE;
+    private double usedLastTick;
+    private double usedThisTick;
 
     public EldritchEnergyAcceptorBlockEntity(BlockPos pos, BlockState state) {
         super(LTBlocks.ELDRITCH_ENERGY_ACCEPTOR_ENTITY.get(), pos, state);
@@ -93,53 +99,63 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
     }
 
     private double extractAEPower(double amt, Actionable mode) {
+        if (amt <= 0 || !(getLevel() instanceof ServerLevel)) return 0;
+        if (amt <= buffer) {
+            if (!mode.isSimulate()) {
+                buffer -= amt;
+                addToTickStatistic(amt);
+            }
+            return amt;
+        }
         var network = getConnectedBeaconNetwork();
-        if (amt <= 0 || network == null || !network.getActive()) return 0;
+        if (network == null || !network.getActive()) return 0;
         var networkPower = network.getStoredPower();
         if (mode.isSimulate()) {
             if (networkPower.compareTo(MAX_SAFE_POWER) >= 0) {
                 return amt;
             } else {
-                return Math.min(amt, (double)networkPower.longValue() * LTCompat.aePerEu());
+                double available = (double)networkPower.longValue() * LTCompat.aePerEu() + buffer;
+                return Math.min(MAX_MAXIMUM, Math.min(amt, available));
             }
         }
-        var safeNetworkPower = networkPower.min(MAX_SAFE_POWER);
-        var multAvailablePower = safeNetworkPower
-                .multiply(BIG_MULT_AE_PER_EU)
-                .add(BigInteger.valueOf(excess));
-        var multAmt = BigInteger.valueOf((long)Math.floor(amt))
-                .multiply(BIG_MULT_AE)
-                .add(BigInteger.valueOf((long)Math.ceil((Math.max(amt, 0.000001) % 1.0) * MULT_AE)));
-        if (multAvailablePower.compareTo(multAmt) >= 0) {
-            var multRemaining = multAvailablePower.subtract(multAmt);
-            var remainingPieces = multRemaining.divideAndRemainder(BIG_MULT_AE_PER_EU);
-            var powerToRemove = safeNetworkPower.subtract(remainingPieces[0]);
-            network.setStoredPower(networkPower.subtract(powerToRemove));
-            excess = remainingPieces[1].intValue();
+        double euRequired = Math.ceil((amt - buffer) / LTCompat.aePerEu());
+        var euToPull = networkPower.min(BigInteger.valueOf((long)euRequired));
+        network.setStoredPower(networkPower.subtract(euToPull));
+        buffer += (double)euToPull.longValue() * LTCompat.aePerEu();
+        if (buffer >= amt) {
+            buffer -= amt;
+            addToTickStatistic(amt);
             return amt;
-        } else {
-            double result = (double)safeNetworkPower.longValue() * LTCompat.aePerEu() + ((double)excess / MULT_AE);
-            network.setStoredPower(networkPower.subtract(safeNetworkPower));
-            excess = 0;
-            return result;
         }
-//        var networkPowerMultiplied = network.getStoredPower().multiply(MULTIPLIER).add(BigInteger.valueOf(excess));
-//        var euToExtractMultiplied = BigInteger.valueOf((long)(amt / LTCompat.aePerEu() * 10000));
-//        boolean canExtractFullAmount = false;
-//        var extractedMultiplied = networkPowerMultiplied;
-//        if (networkPowerMultiplied.compareTo(euToExtractMultiplied) >= 0) {
-//            canExtractFullAmount = true;
-//            extractedMultiplied = euToExtractMultiplied;
-//            networkPowerMultiplied = networkPowerMultiplied.subtract(extractedMultiplied);
-//        } else {
-//            networkPowerMultiplied = BigInteger.ZERO;
-//        }
-//        var quotientAndRemainder = networkPowerMultiplied.divideAndRemainder(MULTIPLIER);
-//        if (!mode.isSimulate()) {
-//            network.setStoredPower(quotientAndRemainder[0]);
-//            excess = quotientAndRemainder[1].intValue();
-//        }
-//        return canExtractFullAmount ? amt : extractedMultiplied.doubleValue() / 10000 * LTCompat.aePerEu();
+        double result = buffer;
+        buffer = 0;
+        addToTickStatistic(result);
+        return result;
+    }
+
+    @ApiStatus.Internal
+    public void stockBuffer() {
+        double toStock = Math.min(MAX_MAXIMUM, usedLastTick * 3) - buffer;
+        if (toStock <= 0) return;
+        var network = getConnectedBeaconNetwork();
+        if (network == null || !network.getActive()) return;
+        var networkPower = network.getStoredPower();
+        double euRequired = Math.ceil(toStock / LTCompat.aePerEu());
+        var euToPull = networkPower.min(BigInteger.valueOf((long)euRequired));
+        network.setStoredPower(networkPower.subtract(euToPull));
+        buffer += (double)euToPull.longValue() * LTCompat.aePerEu();
+    }
+
+    private void addToTickStatistic(double amt) {
+        if (lastTimeStamp == LueTech.tickCount - 1) {
+            usedLastTick = usedThisTick;
+            usedThisTick = 0L;
+        } else if (lastTimeStamp < LueTech.tickCount) {
+            usedLastTick = 0L;
+            usedThisTick = 0L;
+        }
+        lastTimeStamp = LueTech.tickCount;
+        usedThisTick += amt;
     }
 
     @Override
@@ -160,8 +176,8 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
         if (networkUUID != null) {
             data.putIntArray("beaconNetwork", UUIDUtil.uuidToIntArray(networkUUID));
         }
-        if (excess > 0) {
-            data.putInt("excess", excess);
+        if (buffer > 0) {
+            data.putDouble("buffer", buffer);
         }
     }
 
@@ -174,17 +190,29 @@ public class EldritchEnergyAcceptorBlockEntity extends AENetworkedBlockEntity im
                 networkUUID = UUIDUtil.uuidFromIntArray(intArray);
             }
         }
-        if (data.contains("excess", Tag.TAG_INT)) {
-            excess = Math.max(0, data.getInt("excess"));
+        if (data.contains("buffer", Tag.TAG_DOUBLE)) {
+            buffer = Math.max(0, data.getDouble("buffer"));
         }
     }
 
     @Override
     public void onLoad() {
         super.onLoad();
-        if (getLevel() instanceof ServerLevel && networkUUID != null) {
-            getMainNode().ifPresent(grid ->
-                    grid.postEvent(new GridPowerStorageStateChanged(this, GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER)));
+        if (getLevel() instanceof ServerLevel) {
+            INSTANCES.add(this);
+            if (networkUUID != null) {
+                getMainNode().ifPresent(grid ->
+                        grid.postEvent(new GridPowerStorageStateChanged(this,
+                                GridPowerStorageStateChanged.PowerEventType.PROVIDE_POWER)));
+            }
+        }
+    }
+
+    @Override
+    public void setRemoved() {
+        super.setRemoved();
+        if (getLevel() instanceof ServerLevel) {
+            INSTANCES.remove(this);
         }
     }
 

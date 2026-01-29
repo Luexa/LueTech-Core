@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import sh.lue.luetech.api.BeaconSingleblockConnections;
 import sh.lue.luetech.api.IEnergyStorageProvider;
 import sh.lue.luetech.commands.BigIntegerArgumentType;
+import sh.lue.luetech.common.blockentity.EldritchEnergyAcceptorBlockEntity;
 import sh.lue.luetech.common.saveddata.LTSavedData;
 import sh.lue.luetech.data.*;
 import sh.lue.luetech.data.curio.LTCuriosProvider;
@@ -47,6 +48,8 @@ public class LueTech {
 
     @ApiStatus.Internal
     public static LTSavedData savedData;
+
+    public static long tickCount = 0L;
 
     public static final String MOD_ID = "luetech";
     public static final String NAME = "LueTech";
@@ -142,6 +145,7 @@ public class LueTech {
     @SubscribeEvent
     static void onPostServerTick(LevelTickEvent.Post event) {
         if (event.getLevel() instanceof ServerLevel serverLevel && serverLevel.getServer().overworld() == serverLevel) {
+            tickCount += 1;
             for (var networkEntries : BeaconSingleblockConnections.NETWORK_CONNECTIONS.entrySet()) {
                 var networkUUID = networkEntries.getKey();
                 var network = savedData.dominanceBeacon.getNetwork(networkUUID);
@@ -171,6 +175,15 @@ public class LueTech {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    static void onPostServerTickLate(LevelTickEvent.Post event) {
+        if (event.getLevel() instanceof ServerLevel serverLevel && serverLevel.getServer().overworld() == serverLevel) {
+            for (var eldritchAcceptor : EldritchEnergyAcceptorBlockEntity.INSTANCES) {
+                eldritchAcceptor.stockBuffer();
             }
         }
     }
