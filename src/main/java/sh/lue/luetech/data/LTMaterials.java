@@ -6,6 +6,7 @@ import com.direwolf20.justdirethings.setup.Registration;
 import com.glodblock.github.extendedae.common.EAESingletons;
 import com.gregtechceu.gtceu.api.fluid.FluidBuilder;
 import com.gregtechceu.gtceu.api.material.material.Material;
+import com.gregtechceu.gtceu.api.material.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.material.material.properties.BlastProperty.GasTier;
 import com.gregtechceu.gtceu.api.material.material.properties.IngotProperty;
 import com.gregtechceu.gtceu.api.material.material.properties.PropertyKey;
@@ -41,10 +42,16 @@ public class LTMaterials {
     };
 
     /* Element Materials */
-    public static final Material Iesnium = new Material.Builder(LueTech.id("iesnium"))
-            .ingot().ore()
-            .element(LTElements.Ie)
-            .color(0x87c2d8).iconSet(BRIGHT)
+    public static final Material Axolotium = new Material.Builder(LueTech.id("axolotium"))
+            .dust()
+            .element(LTElements.A)
+            .color(0x00aced).iconSet(SHINY)
+            .buildAndRegister();
+
+    public static final Material Adamantium = new Material.Builder(LueTech.id("adamantium"))
+            .ingot().liquid(new FluidBuilder().temperature(1811))
+            .element(LTElements.Ad)
+            .color(0xcc0044).iconSet(SHINY)
             .buildAndRegister();
 
     public static final Material Elementium = new Material.Builder(LueTech.id("elementium"))
@@ -56,6 +63,12 @@ public class LTMaterials {
             .cableProperties(V[UEV], 2, 2)
             .buildAndRegister();
 
+    public static final Material Iesnium = new Material.Builder(LueTech.id("iesnium"))
+            .ingot().ore().liquid(new FluidBuilder().temperature(1811))
+            .element(LTElements.Ie)
+            .color(0x87c2d8).iconSet(BRIGHT)
+            .buildAndRegister();
+
     public static final Material Quantonium = new Material.Builder(LueTech.id("quantonium"))
             .ingot().liquid(new FluidBuilder().temperature(100000))
             .element(LTElements.Qt)
@@ -65,6 +78,12 @@ public class LTMaterials {
             .buildAndRegister();
 
     /* First-degree Materials */
+    public static final Material AdamantiumAxolotide = new Material.Builder(LueTech.id("adamantium_axolotide"))
+            .ingot().liquid(new FluidBuilder().temperature(1811))
+            .components(Adamantium, 1, Axolotium, 1)
+            .color(0xbc05e3).iconSet(SHINY)
+            .buildAndRegister();
+
     public static final Material QuantoniumMagnetic = new Material.Builder(LueTech.id("magnetic_quantonium"))
             .ingot()
             .components(Quantonium, 1)

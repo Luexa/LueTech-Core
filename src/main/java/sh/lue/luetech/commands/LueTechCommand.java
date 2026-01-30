@@ -238,7 +238,7 @@ public class LueTechCommand {
             totalHatches += networkMembers.size();
         }
         dump.append("[[ ");
-        dump.append("INSTANCE COUNTS").withStyle(ChatFormatting.GREEN);
+        dump.append(Component.literal("INSTANCE COUNTS").withStyle(ChatFormatting.GREEN));
         dump.append(" ]]\nEldritch Singleblocks: ");
         dump.append(Component.literal(Integer.toString(totalSingleblocks)).withStyle(ChatFormatting.GOLD));
         dump.append(" total across ");

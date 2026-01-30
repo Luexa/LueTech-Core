@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import sh.lue.luetech.LueTech;
 import sh.lue.luetech.api.IBeaconConnected;
-import sh.lue.luetech.common.machine.multiblock.electric.DominanceBeaconMachine;
 import sh.lue.luetech.common.saveddata.beacon.BeaconNetwork;
 import sh.lue.luetech.utils.BigIntegerUtils;
 import sh.lue.luetech.utils.TeamUtils;
@@ -130,12 +129,7 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
     public void addedToController(IMultiController controller) {
         super.addedToController(controller);
         if (getLevel() instanceof ServerLevel) {
-            if (controller instanceof DominanceBeaconMachine) {
-                // Beacon of Dominance can be trusted with this hatch.
-                unsubscribeFromTick();
-            } else {
-                updateTickSubscription();
-            }
+            updateTickSubscription();
         }
     }
 
@@ -156,14 +150,7 @@ public class EldritchEnergyHatchPartMachine extends EnergyHatchPartMachine imple
     }
 
     private void updateTickSubscription() {
-        boolean shouldTick;
-        if (getControllers().isEmpty()) {
-            shouldTick = true;
-        } else {
-            shouldTick = getControllers().stream()
-                    .noneMatch(c -> c instanceof DominanceBeaconMachine);
-        }
-        if (network == null || !network.getActive() || !shouldTick || !isWorkingEnabled()) {
+        if (network == null || !network.getActive() || !isWorkingEnabled()) {
             unsubscribeFromTick();
         } else if (tickSubscription == null) {
             tickSubscription = subscribeServerTick(this::tick);
