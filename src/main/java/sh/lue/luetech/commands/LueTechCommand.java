@@ -17,6 +17,7 @@ import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import sh.lue.luetech.LueTech;
 import sh.lue.luetech.api.BeaconSingleblockConnections;
 import sh.lue.luetech.common.blockentity.EldritchEnergyAcceptorBlockEntity;
+import sh.lue.luetech.common.machine.multiblock.electric.DominanceBeaconMachine;
 import sh.lue.luetech.common.machine.multiblock.part.EldritchEnergyHatchPartMachine;
 
 import java.math.BigInteger;
@@ -229,6 +230,7 @@ public class LueTechCommand {
 
     private static int dumpInstanceCounts(CommandContext<CommandSourceStack> ctx) {
         MutableComponent dump = Component.literal("").withStyle(ChatFormatting.AQUA);
+        int totalBeacons = DominanceBeaconMachine.ALL_INSTANCES.size();
         int totalSingleblocks = BeaconSingleblockConnections.NETWORK_CONNECTIONS.size();
         int totalSingleblockNetworks = BeaconSingleblockConnections.SINGLEBLOCK_NETWORKS.size();
         int totalAcceptors = EldritchEnergyAcceptorBlockEntity.INSTANCES.size();
@@ -239,7 +241,9 @@ public class LueTechCommand {
         }
         dump.append("[[ ");
         dump.append(Component.literal("INSTANCE COUNTS").withStyle(ChatFormatting.GREEN));
-        dump.append(" ]]\nEldritch Singleblocks: ");
+        dump.append(" ]]\nBeacons of Dominance: ");
+        dump.append(Component.literal(Integer.toString(totalBeacons)).withStyle(ChatFormatting.GOLD));
+        dump.append("\nEldritch Singleblocks: ");
         dump.append(Component.literal(Integer.toString(totalSingleblocks)).withStyle(ChatFormatting.GOLD));
         dump.append(" total across ");
         dump.append(Component.literal(Integer.toString(totalSingleblockNetworks)).withStyle(ChatFormatting.GOLD));

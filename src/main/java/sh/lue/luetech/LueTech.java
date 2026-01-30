@@ -32,6 +32,7 @@ import sh.lue.luetech.api.BeaconSingleblockConnections;
 import sh.lue.luetech.api.IEnergyStorageProvider;
 import sh.lue.luetech.commands.BigIntegerArgumentType;
 import sh.lue.luetech.common.blockentity.EldritchEnergyAcceptorBlockEntity;
+import sh.lue.luetech.common.machine.multiblock.electric.DominanceBeaconMachine;
 import sh.lue.luetech.common.saveddata.LTSavedData;
 import sh.lue.luetech.data.*;
 import sh.lue.luetech.data.curio.LTCuriosProvider;
@@ -175,6 +176,9 @@ public class LueTech {
                         }
                     }
                 }
+            }
+            for (var beacon : DominanceBeaconMachine.ALL_INSTANCES) {
+                beacon.beaconTick();
             }
         }
     }
